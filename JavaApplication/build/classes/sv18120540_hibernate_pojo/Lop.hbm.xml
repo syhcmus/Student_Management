@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 8, 2020 10:30:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="quanlysinhvien" name="sv18120540_hibernate_pojo.Lop" optimistic-lock="version" table="lop">
+    <id name="mssv" type="string">
+      <column length="10" name="mssv"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="sv18120540_hibernate_pojo.Danhsachlop" fetch="select" name="danhsachlop">
+      <column length="10" name="malop"/>
+    </many-to-one>
+    <property name="hoten" type="string">
+      <column length="45" name="hoten"/>
+    </property>
+    <property name="gioitinh" type="string">
+      <column length="5" name="gioitinh"/>
+    </property>
+    <property name="cmnnd" type="string">
+      <column length="10" name="cmnnd"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="diems" table="diem">
+      <key>
+        <column length="10" name="mssv" not-null="true"/>
+      </key>
+      <one-to-many class="sv18120540_hibernate_pojo.Diem"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="lopMonhocs" table="lop_monhoc">
+      <key>
+        <column length="10" name="mssv" not-null="true"/>
+      </key>
+      <one-to-many class="sv18120540_hibernate_pojo.LopMonhoc"/>
+    </set>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 8, 2020 10:30:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="quanlysinhvien" name="sv18120540_hibernate_pojo.LopMonhoc" optimistic-lock="version" table="lop_monhoc">
+    <composite-id class="sv18120540_hibernate_pojo.LopMonhocId" name="id">
+      <key-property name="mssv" type="string">
+        <column length="10" name="mssv"/>
+      </key-property>
+      <key-property name="malopMonhoc" type="string">
+        <column length="20" name="malop_monhoc"/>
+      </key-property>
+    </composite-id>
+    <many-to-one class="sv18120540_hibernate_pojo.DanhsachlopMonhoc" fetch="select" insert="false" name="danhsachlopMonhoc" update="false">
+      <column length="20" name="malop_monhoc" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="sv18120540_hibernate_pojo.Lop" fetch="select" insert="false" name="lop" update="false">
+      <column length="10" name="mssv" not-null="true"/>
+    </many-to-one>
+    <property name="hoten" type="string">
+      <column length="45" name="hoten"/>
+    </property>
+    <property name="gioitinh" type="string">
+      <column length="5" name="gioitinh"/>
+    </property>
+    <property name="cmnnd" type="string">
+      <column length="10" name="cmnnd"/>
+    </property>
+  </class>
+</hibernate-mapping>

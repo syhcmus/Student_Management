@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 8, 2020 10:30:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="quanlysinhvien" name="sv18120540_hibernate_pojo.Danhsachlop" optimistic-lock="version" table="danhsachlop">
+    <id name="malop" type="string">
+      <column length="10" name="malop"/>
+      <generator class="assigned"/>
+    </id>
+    <set fetch="select" inverse="true" lazy="true" name="lops" table="lop">
+      <key>
+        <column length="10" name="malop"/>
+      </key>
+      <one-to-many class="sv18120540_hibernate_pojo.Lop"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="tkbs" table="tkb">
+      <key>
+        <column length="10" name="malop" not-null="true"/>
+      </key>
+      <one-to-many class="sv18120540_hibernate_pojo.Tkb"/>
+    </set>
+  </class>
+</hibernate-mapping>
