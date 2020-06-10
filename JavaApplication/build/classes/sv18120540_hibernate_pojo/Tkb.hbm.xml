@@ -15,7 +15,7 @@
       <column length="10" name="malop" not-null="true"/>
     </many-to-one>
     <property name="tenmon" type="string">
-      <column length="10" name="tenmon"/>
+      <column length="45" name="tenmon"/>
     </property>
     <property name="phonghoc" type="string">
       <column length="5" name="phonghoc"/>

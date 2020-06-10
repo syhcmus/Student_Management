@@ -7,9 +7,6 @@
       <column length="20" name="malop_monhoc"/>
       <generator class="assigned"/>
     </id>
-    <property name="stt" type="string">
-      <column length="3" name="stt"/>
-    </property>
     <set fetch="select" inverse="true" lazy="true" name="diems" table="diem">
       <key>
         <column length="20" name="malop_monhoc" not-null="true"/>

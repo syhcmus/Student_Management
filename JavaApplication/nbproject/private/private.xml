@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/ThemSinhVien.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Danhsachlop.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemDanhSach.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/LopMonhoc.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/DanhSachLopChoMonHoc.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NhapDanhSachLop.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/HibernateUtil.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Lop.hbm.xml</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/LopMonhoc.hbm.xml</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/JavaApplication.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Lop.java</file>
         </group>

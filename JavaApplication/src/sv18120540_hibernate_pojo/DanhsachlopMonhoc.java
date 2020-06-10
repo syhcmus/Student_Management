@@ -12,7 +12,6 @@ public class DanhsachlopMonhoc  implements java.io.Serializable {
 
 
      private String malopMonhoc;
-     private String stt;
      private Set diems = new HashSet(0);
      private Set lopMonhocs = new HashSet(0);
 
@@ -23,9 +22,8 @@ public class DanhsachlopMonhoc  implements java.io.Serializable {
     public DanhsachlopMonhoc(String malopMonhoc) {
         this.malopMonhoc = malopMonhoc;
     }
-    public DanhsachlopMonhoc(String malopMonhoc, String stt, Set diems, Set lopMonhocs) {
+    public DanhsachlopMonhoc(String malopMonhoc, Set diems, Set lopMonhocs) {
        this.malopMonhoc = malopMonhoc;
-       this.stt = stt;
        this.diems = diems;
        this.lopMonhocs = lopMonhocs;
     }
@@ -37,13 +35,7 @@ public class DanhsachlopMonhoc  implements java.io.Serializable {
     public void setMalopMonhoc(String malopMonhoc) {
         this.malopMonhoc = malopMonhoc;
     }
-    public String getStt() {
-        return this.stt;
-    }
     
-    public void setStt(String stt) {
-        this.stt = stt;
-    }
     public Set getDiems() {
         return this.diems;
     }

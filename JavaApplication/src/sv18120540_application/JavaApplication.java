@@ -17,8 +17,11 @@ public class JavaApplication {
     public static void main(String[] args) {
         // TODO code application logic here
         //new NhapDanhSachLop().kichHoat();
-        new ThemSinhVien().kichHoat();
-      
+        //new ThemSinhVien().kichHoat();
+        //new NhapThoiKhoaBieu().kichHoat();
+        //new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
+        new XemDanhSach().kichHoat();
+        
     }
-    
+
 }

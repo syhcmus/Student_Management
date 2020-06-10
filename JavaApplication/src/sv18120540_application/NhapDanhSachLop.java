@@ -14,9 +14,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,49 +34,80 @@ import sv18120540_hibernate_pojo.Lop;
  */
 public class NhapDanhSachLop {
 
-    public void kichHoat(){
-        JFrame frame = new JFrame();
+    private JTextField textField;
+    private String path;
 
-        JButton upClassFile = new JButton("load class file");
-        upClassFile.addActionListener(new nhapFile());
-        frame.getContentPane().add(upClassFile);
-
-        frame.setSize(300, 300);
-        frame.setLocationRelativeTo(null);
+    public void kichHoat() {
+        JFrame frame = new JFrame("Nhập Danh Sách Lớp");
+        frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+
+        JLabel lblNewLabel = new JLabel("Mã Lớp");
+        lblNewLabel.setBounds(45, 65, 56, 16);
+        frame.getContentPane().add(lblNewLabel);
+
+        textField = new JTextField();
+        textField.setBounds(136, 62, 116, 22);
+        frame.getContentPane().add(textField);
+        textField.setColumns(10);
+
+        JButton btnNewButton = new JButton("file");
+        btnNewButton.setBounds(296, 61, 70, 25);
+        btnNewButton.addActionListener(new LayDuongDan());
+        frame.getContentPane().add(btnNewButton);
+
+        JButton btnNewButton_1 = new JButton("Tạo Danh Sách");
+        btnNewButton_1.setBounds(121, 153, 153, 25);
+        btnNewButton_1.addActionListener(new TaoDanhSach());
+        frame.getContentPane().add(btnNewButton_1);
+        
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    class nhapFile implements ActionListener {
+    class TaoDanhSach implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JFileChooser file = new JFileChooser();
-            file.showOpenDialog(null);
-
-            if (JFileChooser.APPROVE_OPTION == 0) {
-                String duongDan = file.getSelectedFile().getPath();
-                //String malop = tachDuongDan(duongDan);
-                try {
-                    themSinhVienVaoLop(duongDan);
-                } catch (UnsupportedEncodingException ex) {
-                } catch (IOException ex) {
-                }
+            try {
+                themSinhVienVaoLop(path);
+                
+                JOptionPane.showMessageDialog(null, "Tao Danh Sach Thanh Cong");
+                textField.setText("");
+                
+                
+            } catch (UnsupportedEncodingException ex) {
+            } catch (IOException ex) {
             }
         }
 
     }
     
-    public String tachDuongDan(String duongDan){
+    class LayDuongDan implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser file = new JFileChooser();
+            file.showOpenDialog(null);
+            
+             if (JFileChooser.APPROVE_OPTION == 0) {
+                 path = file.getSelectedFile().getPath();
+             }
+        }
+        
+    }
+
+    public String tachDuongDan(String duongDan) {
         String result = null;
-        for(int i=duongDan.length()-1; i>=0; i--){
-            if((int)duongDan.charAt(i) == 92){
-                result = duongDan.substring(i+1);
-                result = result.substring(0, result.length()-4);
+        for (int i = duongDan.length() - 1; i >= 0; i--) {
+            if ((int) duongDan.charAt(i) == 92) {
+                result = duongDan.substring(i + 1);
+                result = result.substring(0, result.length() - 4);
                 break;
             }
         }
-        
+
         return result;
     }
 
@@ -94,8 +130,8 @@ public class NhapDanhSachLop {
 
         return true;
     }
-    
-    public boolean kiemTraLopTonTai(String maLop){
+
+    public static boolean kiemTraLopTonTai(String maLop) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         Danhsachlop dsLop = null;
@@ -133,13 +169,13 @@ public class NhapDanhSachLop {
         } finally {
             session.close();
         }
-        
+
         return true;
     }
 
     public void themSinhVienVaoLop(String duongDan) throws FileNotFoundException, UnsupportedEncodingException, IOException {
-      
-        String malop = tachDuongDan(duongDan);
+
+        String malop = textField.getText();
         Danhsachlop dsLop = new Danhsachlop(malop);
         themLopVaoDanhSach(dsLop);
 
@@ -147,34 +183,34 @@ public class NhapDanhSachLop {
                 new InputStreamReader(
                         new FileInputStream(
                                 new File(duongDan)), "UTF-8"));
-        
+
         String duLieu = file.readLine();
-        
-        
-        while((duLieu = file.readLine()) != null && duLieu.isEmpty() == false){
-            
+
+        while ((duLieu = file.readLine()) != null && duLieu.isEmpty() == false) {
+
             System.out.println(duLieu);
-            
+
             String[] cot = duLieu.split(",", 0);
-            
+
             Lop lop = new Lop();
             lop.setMssv(cot[1]);
             lop.setHoten(cot[2]);
             lop.setGioitinh(cot[3]);
             lop.setCmnnd(cot[4]);
             lop.setDanhsachlop(dsLop);
-            
+
             themSinhVienVaoLop(lop);
-            
+
         }
 
     }
 
-    public void themLopVaoDanhSach(Danhsachlop lop) {
+    public static void themLopVaoDanhSach(Danhsachlop lop) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        if(kiemTraLopTonTai(lop.getMalop()) == true)
+
+        if (kiemTraLopTonTai(lop.getMalop()) == true) {
             return;
+        }
 
         Transaction transaction = null;
 
