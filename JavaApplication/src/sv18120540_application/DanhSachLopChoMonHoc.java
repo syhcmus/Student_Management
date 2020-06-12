@@ -128,7 +128,7 @@ public class DanhSachLopChoMonHoc {
         try {
             dsLop = (DanhsachlopMonhoc) session.get(DanhsachlopMonhoc.class, maLop);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

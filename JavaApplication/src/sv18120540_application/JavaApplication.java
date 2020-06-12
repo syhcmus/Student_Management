@@ -20,8 +20,10 @@ public class JavaApplication {
         //new ThemSinhVien().kichHoat();
         //new NhapThoiKhoaBieu().kichHoat();
         //new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
-        new XemDanhSach().kichHoat();
-        
+        //new XemDanhSach().kichHoat();
+        //new XemTKB().kichHoat();
+        //new NhapDiem().kichHoat();
+        new XemDiem().kichHoat();
     }
 
 }
