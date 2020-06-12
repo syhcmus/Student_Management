@@ -23,7 +23,8 @@ public class JavaApplication {
         //new XemDanhSach().kichHoat();
         //new XemTKB().kichHoat();
         //new NhapDiem().kichHoat();
-        new XemDiem().kichHoat();
+        //new XemDiem().kichHoat();
+        new DangNhap().kichHoat();
     }
 
 }

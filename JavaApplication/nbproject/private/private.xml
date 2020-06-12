@@ -3,18 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NhapDiem.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/DanhsachlopMonhoc.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Danhsachlop.hbm.xml</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Taikhoan.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/hibernate.cfg.xml</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NguoiDung.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/GiaoVu.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/SinhVien.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NhapDanhSachLop.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemDanhSach.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/ThemSinhVien.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/DanhsachlopMonhoc.hbm.xml</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/DanhSachLopChoMonHoc.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Diem.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NhapThoiKhoaBieu.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemDiem.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/DiemId.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemTKB.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/DangNhap.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/JavaApplication.java</file>
         </group>
     </open-files>

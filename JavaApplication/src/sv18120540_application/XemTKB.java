@@ -42,24 +42,29 @@ class DSThoiKhoaBieu extends Thread {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        ArrayList<Tkb> ds = (ArrayList<Tkb>) session.createQuery("from Tkb").list();
+        try {
+            ArrayList<Tkb> ds = (ArrayList<Tkb>) session.createQuery("from Tkb").list();
 
-        for (int i = 0; i < ds.size(); i++) {
-            if (ds.get(i).getDanhsachlop().getMalop().equals(maLop)) {
-                Tkb tkb = ds.get(i);
-                model.addRow(new Object[]{
-                    tkb.getId().getMamon(),
-                    tkb.getTenmon(),
-                    tkb.getPhonghoc()
-                });
+            for (int i = 0; i < ds.size(); i++) {
+                if (ds.get(i).getDanhsachlop().getMalop().equals(maLop)) {
+                    Tkb tkb = ds.get(i);
+                    model.addRow(new Object[]{
+                        tkb.getId().getMamon(),
+                        tkb.getTenmon(),
+                        tkb.getPhonghoc()
+                    });
+                }
             }
+
+            table.setModel(model);
+            table.setAutoResizeMode(0);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
+
+        } finally {
+            session.close();
         }
-        
-        table.setModel(model);
-        table.setAutoResizeMode(0);
-        table.getColumnModel().getColumn(1).setPreferredWidth(150);
-         table.getColumnModel().getColumn(2).setPreferredWidth(150);
-        
+
     }
 
 }
@@ -86,13 +91,14 @@ public class XemTKB {
 
         JButton btnNewButton = new JButton("Xem TKB");
         btnNewButton.setBounds(297, 50, 97, 25);
-        
+
         btnNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(textField.getText().isEmpty())
+                if (textField.getText().isEmpty()) {
                     return;
-                
+                }
+
                 new DSThoiKhoaBieu(table, textField.getText());
             }
         });
