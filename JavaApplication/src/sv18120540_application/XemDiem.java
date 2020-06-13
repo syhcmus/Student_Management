@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -204,7 +205,7 @@ public class XemDiem {
     public void kichHoat() {
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 450, 348);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JLabel lblNewLabel = new JLabel("Mã Lớp");
@@ -274,9 +275,16 @@ public class XemDiem {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (!textField.getText().isEmpty() && !textField_1.getText().isEmpty()) {
-                    new SuaDiem(new DiemId(textField_1.getText(), textField.getText()), table);
+                String mssv = textField_1.getText();
+                String maLop = textField.getText();
+
+                if (mssv.isEmpty() || maLop.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên và Lớp học");
+                    return;
                 }
+
+                
+                new SuaDiem(new DiemId(mssv, maLop), table);
                 //frame.dispose();
             }
         });

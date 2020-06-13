@@ -18,6 +18,7 @@ public class JavaApplication {
         // TODO code application logic here
         //new NhapDanhSachLop().kichHoat();
         //new ThemSinhVien().kichHoat();
+        //new XoaSinhVien().kichHoat();
         //new NhapThoiKhoaBieu().kichHoat();
         //new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
         //new XemDanhSach().kichHoat();
@@ -25,6 +26,8 @@ public class JavaApplication {
         //new NhapDiem().kichHoat();
         //new XemDiem().kichHoat();
         new DangNhap().kichHoat();
+        //new SuaDiem().kichHoat();
+        
     }
 
 }

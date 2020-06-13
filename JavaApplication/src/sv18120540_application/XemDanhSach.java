@@ -5,6 +5,7 @@
  */
 package sv18120540_application;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -100,10 +101,12 @@ class DanhSachLop extends Thread {
 
 public class XemDanhSach {
 
-    private JTextField textField_2;
-    JTable table_2;
+    private JTable table;
+    private JFrame frame;
+    private JTextField textField;
 
     public void kichHoat() {
+        /*
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +140,57 @@ public class XemDanhSach {
         frame.getContentPane().add(scrollPane);
 
         table_2 = new JTable();
-        scrollPane.setViewportView(table_2);
+        scrollPane.setViewportView(table_2);*/
+
+        frame = new JFrame();
+        frame.setBounds(100, 100, 465, 312);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+
+        JLabel lblNewLabel = new JLabel("Mã Lớp");
+        lblNewLabel.setBounds(30, 34, 56, 16);
+        frame.getContentPane().add(lblNewLabel);
+
+        textField = new JTextField();
+        textField.setBounds(126, 31, 116, 22);
+        frame.getContentPane().add(textField);
+        textField.setColumns(10);
+
+        JButton btnNewButton = new JButton("Xem Danh Sách");
+        btnNewButton.setBounds(281, 30, 139, 25);
+        btnNewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (textField.getText().isEmpty()) {
+                    return;
+                }
+
+                new DanhSachLop(textField, table);
+            }
+        });
+        frame.getContentPane().add(btnNewButton);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(30, 88, 390, 128);
+        frame.getContentPane().add(scrollPane);
+
+        table = new JTable();
+        scrollPane.setViewportView(table);
+
+        JButton btnNewButton_1 = new JButton("Thêm Sinh Viên");
+        btnNewButton_1.setBounds(126, 227, 150, 25);
+        btnNewButton_1.addActionListener((ActionEvent e) -> {
+            //frame.dispose();
+            frame = new ThemSinhVien().getFrame();
+        });
+        frame.getContentPane().add(btnNewButton_1);
+
+        JButton btnNewButton_2 = new JButton("Xóa Sinh Viên");
+        btnNewButton_2.setBounds(295, 227, 125, 25);
+        btnNewButton_2.addActionListener((ActionEvent e) -> {
+            new XoaSinhVien().kichHoat();
+        });
+        frame.getContentPane().add(btnNewButton_2);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

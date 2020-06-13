@@ -21,23 +21,34 @@ import sv18120540_hibernate_pojo.Lop;
  */
 public class ThemSinhVien {
 
-    JLabel lblNewLabel;
-    JTextField textField;
-    JLabel lblNewLabel_1;
-    JTextField textField_1;
-    JLabel lblNewLabel_2;
-    JTextField textField_2;
-    JLabel lblNewLabel_3;
-    JTextField textField_3;
-    JLabel lblNewLabel_4;
-    JTextField textField_4;
-    JButton btnNewButton;
+    private JLabel lblNewLabel;
+    private JTextField textField;
+    private JLabel lblNewLabel_1;
+    private JTextField textField_1;
+    private JLabel lblNewLabel_2;
+    private JTextField textField_2;
+    private JLabel lblNewLabel_3;
+    private JTextField textField_3;
+    private JLabel lblNewLabel_4;
+    private JTextField textField_4;
+    private JButton btnNewButton;
+    private JFrame frame;
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public ThemSinhVien() {
+        kichHoat();
+    }
+    
+    
 
     public void kichHoat() {
-        JFrame frame = new JFrame("Thêm Sinh Viên");
+        frame = new JFrame("Thêm Sinh Viên");
         frame.setBounds(100, 100, 450, 390);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         lblNewLabel = new JLabel("Họ và Tên");
@@ -106,12 +117,12 @@ public class ThemSinhVien {
             lop.setCmnnd(textField_3.getText());
             lop.setDanhsachlop(new Danhsachlop(textField_4.getText()));
 
-            if (NhapDanhSachLop.themSinhVienVaoLop(lop) == true)
+            if (NhapDanhSachLop.themSinhVienVaoLop(lop) == true) {
                 JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành công");
-            else
+            } else {
                 JOptionPane.showMessageDialog(null, "Thêm Sinh Viên  Không Thành công");
-            
-            
+            }
+
             textField.setText("");
             textField_1.setText("");
             textField_2.setText("");

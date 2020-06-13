@@ -44,6 +44,11 @@ public class SuaDiem extends Thread {
 
     }
 
+    public SuaDiem() {
+    }
+    
+    
+
     @Override
     public void run() {
 
@@ -64,7 +69,7 @@ public class SuaDiem extends Thread {
     public void kichHoat() {
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 450, 419);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JLabel lblNewLabel = new JLabel("MSSV");

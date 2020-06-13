@@ -1,6 +1,9 @@
 package sv18120540_hibernate_pojo;
 // Generated Jun 8, 2020 10:30:35 PM by Hibernate Tools 4.3.1
 
+import javax.swing.JTextField;
+
+
 
 
 /**
@@ -18,6 +21,10 @@ public class LopMonhocId  implements java.io.Serializable {
     public LopMonhocId(String mssv, String malopMonhoc) {
        this.mssv = mssv;
        this.malopMonhoc = malopMonhoc;
+    }
+
+    public LopMonhocId(JTextField textField, JTextField textField_1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
     public String getMssv() {

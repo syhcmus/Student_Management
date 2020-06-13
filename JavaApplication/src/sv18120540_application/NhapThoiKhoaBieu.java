@@ -42,7 +42,7 @@ public class NhapThoiKhoaBieu {
     public void kichHoat() {
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JLabel lblNewLabel = new JLabel("Mã Lớp");
@@ -61,7 +61,10 @@ public class NhapThoiKhoaBieu {
 
         JButton btnNewButton_1 = new JButton("Tạo Thời Khóa Biểu");
         btnNewButton_1.setBounds(106, 173, 200, 25);
-        btnNewButton_1.addActionListener(new TaoTKB());
+        btnNewButton_1.addActionListener((ActionEvent e) -> {
+            new TaoTKB();
+            new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
+        });
         frame.getContentPane().add(btnNewButton_1);
 
         frame.setLocationRelativeTo(null);
