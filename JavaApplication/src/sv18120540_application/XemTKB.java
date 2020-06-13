@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -73,9 +74,10 @@ public class XemTKB {
 
     private JTextField textField;
     private JTable table;
+    private String maLop;
 
     public void kichHoat() {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Xem Thời Khóa Biểu");
         frame.setBounds(100, 100, 450, 300);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -84,10 +86,19 @@ public class XemTKB {
         lblNewLabel.setBounds(42, 54, 56, 16);
         frame.getContentPane().add(lblNewLabel);
 
+        /*
         textField = new JTextField();
         textField.setBounds(146, 51, 116, 22);
         frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        textField.setColumns(10);*/
+        String[] lop = new NhapThoiKhoaBieu().dsLop();
+        maLop = lop[0];
+        JComboBox comboBox = new JComboBox(lop);
+        comboBox.addActionListener((ActionEvent e) -> {
+            maLop = (String) comboBox.getSelectedItem();
+        });
+        comboBox.setBounds(115, 51, 116, 22);
+        frame.getContentPane().add(comboBox);
 
         JButton btnNewButton = new JButton("Xem TKB");
         btnNewButton.setBounds(297, 50, 97, 25);
@@ -95,11 +106,9 @@ public class XemTKB {
         btnNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textField.getText().isEmpty()) {
-                    return;
-                }
+                
 
-                new DSThoiKhoaBieu(table, textField.getText());
+                new DSThoiKhoaBieu(table, maLop);
             }
         });
         frame.getContentPane().add(btnNewButton);

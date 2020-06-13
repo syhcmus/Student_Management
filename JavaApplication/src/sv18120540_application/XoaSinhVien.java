@@ -6,8 +6,8 @@
 package sv18120540_application;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ import sv18120540_hibernate_pojo.LopMonhocId;
 public class XoaSinhVien {
 
     private JTextField textField;
-    private JTextField textField_1;
+    private String maLop;
 
     public void kichHoat() {
         JFrame frame = new JFrame("Xóa Sinh Viên");
@@ -47,14 +47,19 @@ public class XoaSinhVien {
         lblNewLabel_1.setBounds(51, 121, 73, 16);
         frame.getContentPane().add(lblNewLabel_1);
 
-        textField_1 = new JTextField();
-        textField_1.setBounds(213, 118, 116, 22);
-        frame.getContentPane().add(textField_1);
-        textField_1.setColumns(10);
+        String[] lop = new XemDanhSach().dsLop();
+        maLop = lop[0];
+        JComboBox comboBox = new JComboBox(lop);
+        comboBox.addActionListener((ActionEvent e) -> {
+            maLop = (String) comboBox.getSelectedItem();
+        });
+        comboBox.setBounds(213, 118, 116, 22);
+        frame.getContentPane().add(comboBox);
 
         JButton btnNewButton = new JButton("Xác nhận");
         btnNewButton.addActionListener((ActionEvent e) -> {
             xoaSinhVien();
+            frame.dispose();
         });
 
         btnNewButton.setBounds(162, 182, 97, 25);
@@ -68,39 +73,44 @@ public class XoaSinhVien {
         Session session = HibernateUtil.getSessionFactory().openSession();
         boolean isSuccess = false;
         String mssv = textField.getText();
-        String maLop = textField_1.getText();
+        
         try {
 
             Lop l = (Lop) session.get(Lop.class, mssv);
             if (l != null) {
                 if (l.getDanhsachlop().getMalop().equals(maLop)) {
-                    xoaSinhVien(l);
-                    isSuccess = true;
+                    session.close();
+                    
+                    
+                    isSuccess = xoaSinhVien(l);
                 }
 
             }
 
             if (isSuccess == false) {
+                session = HibernateUtil.getSessionFactory().openSession();
                 LopMonhoc lm = (LopMonhoc) session.get(LopMonhoc.class, new LopMonhocId(mssv, maLop));
+                session.close();
 
                 if (lm != null) {
-                    xoaSinhVien(lm);
-                    isSuccess = true;
+                    
+                    isSuccess =  xoaSinhVien(lm);
                 }
 
             }
 
         } finally {
-            session.close();
-            String mess = isSuccess ? "Xóa Sinh Viên thành công" : "Thông tin Sinh Viên không đúng";
+            if(session.isOpen())
+                session.close();
+            String mess = isSuccess ? "Xóa Sinh Viên thành công " : "Xóa Sinh Viên Không thành công";
             JOptionPane.showMessageDialog(null, mess);
         }
 
-       
     }
 
-    public void xoaSinhVien(Lop sv) {
+    public boolean xoaSinhVien(Lop sv) {
 
+        boolean isSuccess = false;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         Transaction transaction = null;
@@ -108,17 +118,22 @@ public class XoaSinhVien {
             transaction = session.beginTransaction();
             session.delete(sv);
             transaction.commit();
+            isSuccess = true;
         } catch (HibernateException ex) {
             transaction.rollback();
             //System.err.println(ex);
         } finally {
             session.close();
+            return isSuccess;
         }
+        
+         
 
     }
 
-    public void xoaSinhVien(LopMonhoc sv) {
+    public boolean xoaSinhVien(LopMonhoc sv) {
 
+         boolean isSuccess = false;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         Transaction transaction = null;
@@ -126,11 +141,13 @@ public class XoaSinhVien {
             transaction = session.beginTransaction();
             session.delete(sv);
             transaction.commit();
+            isSuccess = true;
         } catch (HibernateException ex) {
             transaction.rollback();
             //System.err.println(ex);
         } finally {
             session.close();
+            return isSuccess;
         }
 
     }

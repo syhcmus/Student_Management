@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -17,6 +18,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
+import sv18120540_hibernate_pojo.Danhsachlop;
+import sv18120540_hibernate_pojo.DanhsachlopMonhoc;
 import sv18120540_hibernate_pojo.Lop;
 import sv18120540_hibernate_pojo.LopMonhoc;
 
@@ -26,19 +29,22 @@ import sv18120540_hibernate_pojo.LopMonhoc;
  */
 class DanhSachLop extends Thread {
 
-    private JTextField textField_2;
+    
     private JTable table_2;
+    private String maLop;
 
-    public DanhSachLop(JTextField textField_2, JTable table_2) {
-        this.textField_2 = textField_2;
+    public DanhSachLop(JTable table_2, String maLop) {
         this.table_2 = table_2;
-        start();
+        this.maLop = maLop;
+        this.start();
     }
+
+   
 
     @Override
     public void run() {
 
-        String malop = textField_2.getText();
+        String malop = maLop;
 
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MSSV");
@@ -104,45 +110,11 @@ public class XemDanhSach {
     private JTable table;
     private JFrame frame;
     private JTextField textField;
+    private String maLop;
 
     public void kichHoat() {
-        /*
-        JFrame frame = new JFrame();
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Lớp");
-        lblNewLabel.setBounds(21, 27, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
-
-        textField_2 = new JTextField();
-        textField_2.setBounds(94, 24, 116, 22);
-        frame.getContentPane().add(textField_2);
-        textField_2.setColumns(10);
-
-        JButton btnNewButton = new JButton("Xem Danh Sách");
-        btnNewButton.setBounds(279, 23, 129, 25);
-        btnNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (textField_2.getText().isEmpty()) {
-                    return;
-                }
-
-                new DanhSachLop(textField_2, table_2);
-            }
-        });
-        frame.getContentPane().add(btnNewButton);
-
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(21, 76, 387, 164);
-        frame.getContentPane().add(scrollPane);
-
-        table_2 = new JTable();
-        scrollPane.setViewportView(table_2);*/
-
-        frame = new JFrame();
+        frame = new JFrame("Xem danh sách lớp");
         frame.setBounds(100, 100, 465, 312);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -151,21 +123,23 @@ public class XemDanhSach {
         lblNewLabel.setBounds(30, 34, 56, 16);
         frame.getContentPane().add(lblNewLabel);
 
-        textField = new JTextField();
-        textField.setBounds(126, 31, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+       
+        String[] lop = dsLop();
+        maLop = lop[0];
+        JComboBox comboBox = new JComboBox(lop);
+        comboBox.addActionListener((ActionEvent e) -> {
+            maLop = (String) comboBox.getSelectedItem();
+        });
+        comboBox.setBounds(113, 31, 111, 22);
+        frame.getContentPane().add(comboBox);
 
         JButton btnNewButton = new JButton("Xem Danh Sách");
         btnNewButton.setBounds(281, 30, 139, 25);
         btnNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textField.getText().isEmpty()) {
-                    return;
-                }
-
-                new DanhSachLop(textField, table);
+              
+                new DanhSachLop(table, maLop);
             }
         });
         frame.getContentPane().add(btnNewButton);
@@ -194,6 +168,32 @@ public class XemDanhSach {
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+    }
+
+    public String[] dsLop() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        ArrayList<String> lop = new ArrayList<>();
+
+        try {
+
+            ArrayList<Danhsachlop> ds = (ArrayList<Danhsachlop>) session.createQuery("from Danhsachlop").list();
+            for (int i = 0; i < ds.size(); i++) {
+                Danhsachlop l = ds.get(i);
+                lop.add(l.getMalop());
+            }
+
+            ArrayList<DanhsachlopMonhoc> ds1 = (ArrayList<DanhsachlopMonhoc>) session.createQuery("from DanhsachlopMonhoc").list();
+            for (int i = 0; i < ds1.size(); i++) {
+                DanhsachlopMonhoc l = ds1.get(i);
+                lop.add(l.getMalopMonhoc());
+            }
+
+        } finally {
+            session.close();
+        }
+
+        return lop.toArray(new String[lop.size()]);
 
     }
 

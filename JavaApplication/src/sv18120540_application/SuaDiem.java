@@ -8,7 +8,6 @@ package sv18120540_application;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,7 +52,7 @@ public class SuaDiem extends Thread {
     public void run() {
 
         if (NhapDiem.kiemTraDiemTonTai(id) == false) {
-            JOptionPane.showMessageDialog(null, "MSSV Không Đúng");
+            JOptionPane.showMessageDialog(null, "MSSV Không Đúng Hoặc Không Tồn Tại Trong Lớp");
             return;
         }
 
@@ -67,7 +66,7 @@ public class SuaDiem extends Thread {
     }
 
     public void kichHoat() {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Sửa Điểm");
         frame.setBounds(100, 100, 450, 419);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -114,6 +113,7 @@ public class SuaDiem extends Thread {
                 suaDiem();
 
                 JOptionPane.showMessageDialog(null, "Cập Nhật Điểm thành công");
+                frame.dispose();
             }
         });
         frame.getContentPane().add(btnNewButton);

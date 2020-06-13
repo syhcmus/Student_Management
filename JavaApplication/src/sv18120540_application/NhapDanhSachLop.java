@@ -50,7 +50,7 @@ public class NhapDanhSachLop {
         frame.getContentPane().add(textField);
         textField.setColumns(10);
 
-        JButton btnNewButton = new JButton("file");
+        JButton btnNewButton = new JButton("File");
         btnNewButton.setBounds(296, 61, 70, 25);
         btnNewButton.addActionListener(new LayDuongDan());
         frame.getContentPane().add(btnNewButton);
@@ -71,16 +71,20 @@ public class NhapDanhSachLop {
             try {
                 themSinhVienVaoLop(path);
                 
-                JOptionPane.showMessageDialog(null, "Tao Danh Sach Thanh Cong");
+                JOptionPane.showMessageDialog(null, "Tạo Danh Sách Thành Công");
                 textField.setText("");
                 
-                
             } catch (UnsupportedEncodingException ex) {
+                JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
+                textField.setText("");
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Tạo Danh Sách Thành Công - Lỗi file");
+                textField.setText("");
             }
         }
 
     }
+    
     
     class LayDuongDan implements ActionListener{
 
@@ -96,18 +100,6 @@ public class NhapDanhSachLop {
         
     }
 
-    public String tachDuongDan(String duongDan) {
-        String result = null;
-        for (int i = duongDan.length() - 1; i >= 0; i--) {
-            if ((int) duongDan.charAt(i) == 92) {
-                result = duongDan.substring(i + 1);
-                result = result.substring(0, result.length() - 4);
-                break;
-            }
-        }
-
-        return result;
-    }
 
     public static boolean kiemTraSVTonTai(String maSinhVien) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -185,8 +177,6 @@ public class NhapDanhSachLop {
         String duLieu = file.readLine();
 
         while ((duLieu = file.readLine()) != null && duLieu.isEmpty() == false) {
-
-            System.out.println(duLieu);
 
             String[] cot = duLieu.split(",", 0);
 

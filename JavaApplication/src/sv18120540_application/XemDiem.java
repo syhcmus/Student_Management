@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,18 +28,21 @@ import sv18120540_hibernate_pojo.DiemId;
  */
 class DiemLop extends Thread {
 
-    private JTextField textField;
+    
     private JTable table;
+    private String maLop;
 
-    public DiemLop(JTextField textField, JTable table) {
-        this.textField = textField;
+    public DiemLop(JTable table, String maLop) {
         this.table = table;
+        this.maLop = maLop;
         this.start();
     }
 
+    
+
     @Override
     public void run() {
-        String maLop = textField.getText();
+        
 
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MSSV");
@@ -78,20 +82,22 @@ class DiemLop extends Thread {
 
 class KetQua extends Thread {
 
-    private JTextField textField;
+   
     private JTable table;
+    private String maLop;
     private static final double score = 5;
 
-    public KetQua(JTextField textField, JTable table) {
-        this.textField = textField;
+    public KetQua(JTable table, String maLop) {
         this.table = table;
+        this.maLop = maLop;
         this.start();
     }
+
+   
 
     @Override
     public void run() {
 
-        String maLop = textField.getText();
 
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MSSV");
@@ -136,20 +142,21 @@ class KetQua extends Thread {
 
 class ThongKe extends Thread {
 
-    private JTextField textField;
+   
     private JTable table;
+    private String maLop;
     private static final double score = 5;
 
-    public ThongKe(JTextField textField, JTable table) {
-        this.textField = textField;
+    public ThongKe(JTable table, String maLop) {
         this.table = table;
-        this.start();
+        this.maLop = maLop;
     }
+
+    
 
     @Override
     public void run() {
-        String maLop = textField.getText();
-
+        
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Kết quả");
         model.addColumn("Số Lượng");
@@ -198,12 +205,13 @@ class ThongKe extends Thread {
 
 public class XemDiem {
 
-    private JTextField textField;
+    //private JTextField textField;
     private JTable table;
     private JTextField textField_1;
+    private String maLop;
 
     public void kichHoat() {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Xem Điểm");
         frame.setBounds(100, 100, 450, 348);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -212,18 +220,22 @@ public class XemDiem {
         lblNewLabel.setBounds(30, 36, 56, 16);
         frame.getContentPane().add(lblNewLabel);
 
-        textField = new JTextField();
-        textField.setBounds(135, 33, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        String[] lop = new NhapDiem().dsLop();
+        maLop = lop[0];
+        JComboBox comboBox = new JComboBox(lop);
+        comboBox.addActionListener((ActionEvent e) -> {
+            maLop = (String) comboBox.getSelectedItem();
+        });
+        comboBox.setBounds(135, 33, 116, 22);
+        frame.getContentPane().add(comboBox);
 
         JButton btnNewButton = new JButton("Xem Điểm");
         btnNewButton.setBounds(303, 32, 97, 25);
         btnNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textField.getText().isEmpty()) {
-                    new DiemLop(textField, table);
+                if (!maLop.isEmpty()) {
+                    new DiemLop(table, maLop);
                 }
             }
         });
@@ -241,8 +253,8 @@ public class XemDiem {
         btnNewButton_1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textField.getText().isEmpty()) {
-                    new KetQua(textField, table);
+                if (!maLop.isEmpty()) {
+                    new KetQua(table, maLop);
                 }
             }
         });
@@ -253,8 +265,8 @@ public class XemDiem {
         btnNewButton_2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textField.getText().isEmpty()) {
-                    new ThongKe(textField, table);
+                if (!maLop.isEmpty()) {
+                    new ThongKe(table, maLop);
                 }
             }
         });
@@ -276,14 +288,13 @@ public class XemDiem {
             public void actionPerformed(ActionEvent e) {
 
                 String mssv = textField_1.getText();
-                String maLop = textField.getText();
+                
 
                 if (mssv.isEmpty() || maLop.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên và Lớp học");
+                    JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên");
                     return;
                 }
 
-                
                 new SuaDiem(new DiemId(mssv, maLop), table);
                 //frame.dispose();
             }

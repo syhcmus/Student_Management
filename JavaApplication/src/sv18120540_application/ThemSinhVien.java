@@ -8,6 +8,7 @@ package sv18120540_application;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,9 +31,9 @@ public class ThemSinhVien {
     private JLabel lblNewLabel_3;
     private JTextField textField_3;
     private JLabel lblNewLabel_4;
-    private JTextField textField_4;
     private JButton btnNewButton;
     private JFrame frame;
+    private String maLop;
 
     public JFrame getFrame() {
         return frame;
@@ -41,8 +42,6 @@ public class ThemSinhVien {
     public ThemSinhVien() {
         kichHoat();
     }
-    
-    
 
     public void kichHoat() {
         frame = new JFrame("Thêm Sinh Viên");
@@ -91,10 +90,12 @@ public class ThemSinhVien {
         lblNewLabel_4.setBounds(52, 230, 56, 16);
         frame.getContentPane().add(lblNewLabel_4);
 
-        textField_4 = new JTextField();
-        textField_4.setBounds(212, 227, 137, 22);
-        frame.getContentPane().add(textField_4);
-        textField_4.setColumns(10);
+        
+        String[] lop = new XemDanhSach().dsLop();
+        maLop = lop[0];
+        JComboBox comboBox = new JComboBox(lop);
+        comboBox.setBounds(212, 227, 137, 22);
+        frame.getContentPane().add(comboBox);
 
         btnNewButton = new JButton("Thêm Sinh Viên");
         btnNewButton.addActionListener(new themSinhVien());
@@ -115,7 +116,7 @@ public class ThemSinhVien {
             lop.setHoten(textField_1.getText());
             lop.setGioitinh(textField_2.getText());
             lop.setCmnnd(textField_3.getText());
-            lop.setDanhsachlop(new Danhsachlop(textField_4.getText()));
+            lop.setDanhsachlop(new Danhsachlop(maLop));
 
             if (NhapDanhSachLop.themSinhVienVaoLop(lop) == true) {
                 JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành công");
@@ -123,11 +124,7 @@ public class ThemSinhVien {
                 JOptionPane.showMessageDialog(null, "Thêm Sinh Viên  Không Thành công");
             }
 
-            textField.setText("");
-            textField_1.setText("");
-            textField_2.setText("");
-            textField_3.setText("");
-            textField_4.setText("");
+            frame.dispose();
 
         }
 

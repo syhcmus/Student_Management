@@ -20,11 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import sv18120540_hibernate_pojo.DanhsachlopMonhoc;
 import sv18120540_hibernate_pojo.Diem;
-import sv18120540_hibernate_pojo.DiemId;
 import sv18120540_hibernate_pojo.Lop;
 import sv18120540_hibernate_pojo.LopMonhoc;
 import sv18120540_hibernate_pojo.Tkb;
@@ -101,7 +98,7 @@ public class SinhVien extends NguoiDung {
         Lop l = (Lop) sessoin.get(Lop.class, tenDangNhap);
         sessoin.close();
 
-        JTextField textField = new JTextField(String.format("%s-%s", l.getHoten(), tenDangNhap));
+        JTextField textField = new JTextField(String.format("%s - %s", l.getHoten(), tenDangNhap));
         textField.setEditable(false);
         textField.setBounds(243, 10, 162, 22);
         frame.getContentPane().add(textField);
