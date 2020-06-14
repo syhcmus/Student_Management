@@ -14,6 +14,7 @@
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/SuaDiem.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemTKB.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Tkb.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/UngDungQuanLySinhVien.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/Taikhoan.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XoaSinhVien.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/hibernate.reveng.xml</file>
@@ -31,7 +32,7 @@
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/NhapThoiKhoaBieu.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/XemDiem.java</file>
             <file>file:/E:/NetBean/JavaApplication/src/sv18120540_hibernate_pojo/DiemId.java</file>
-            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/JavaApplication.java</file>
+            <file>file:/E:/NetBean/JavaApplication/src/sv18120540_application/TaoTaiKhoan.java</file>
         </group>
     </open-files>
 </project-private>

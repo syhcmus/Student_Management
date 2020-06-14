@@ -74,6 +74,8 @@ public class NhapDanhSachLop {
                 JOptionPane.showMessageDialog(null, "Tạo Danh Sách Thành Công");
                 textField.setText("");
                 
+                TaoTaiKhoan.taoTaiKhoan();
+                
             } catch (UnsupportedEncodingException ex) {
                 JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
                 textField.setText("");

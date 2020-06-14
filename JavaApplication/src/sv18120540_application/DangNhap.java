@@ -7,7 +7,6 @@ package sv18120540_application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -15,10 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import sv18120540_hibernate_pojo.Lop;
 import sv18120540_hibernate_pojo.Taikhoan;
 
 /**
@@ -35,7 +31,8 @@ public class DangNhap {
 
     public DangNhap() {
         if (isCreatedDefaultAccount == false) {
-            taoTaiKhoan();
+            TaoTaiKhoan.taoTaiKhoan(new Taikhoan("giaovu", "giaovu", "1"));
+            isCreatedDefaultAccount = true;
         }
     }
 
@@ -65,9 +62,11 @@ public class DangNhap {
 
         JCheckBox chckbxNewCheckBox = new JCheckBox("Show Password");
         chckbxNewCheckBox.addActionListener((ActionEvent e) -> {
-            if(chckbxNewCheckBox.isSelected())
-                passwordField.setEchoChar((char)0);
-            else passwordField.setEchoChar('*');
+            if (chckbxNewCheckBox.isSelected()) {
+                passwordField.setEchoChar((char) 0);
+            } else {
+                passwordField.setEchoChar('*');
+            }
         });
         chckbxNewCheckBox.setBounds(146, 165, 124, 25);
         frame.getContentPane().add(chckbxNewCheckBox);
@@ -92,9 +91,8 @@ public class DangNhap {
                 mFrame.dispose();
                 mFrame = tk.getFrame();
                 mFrame.setVisible(true);
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Thông tin đăng nhập không chính xác");
+            } else {
+                JOptionPane.showMessageDialog(null, "Thông tin đăng nhập không chính xác");
             }
         }
 
@@ -103,7 +101,7 @@ public class DangNhap {
     public NguoiDung kiemTraDangNhap() {
         NguoiDung n = null;
 
-        if (kiemTraTKTonTai(textField.getText())) {
+        if (TaoTaiKhoan.kiemTraTKTonTai(textField.getText())) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Taikhoan tk = (Taikhoan) session.get(Taikhoan.class, textField.getText());
             String password = new String(passwordField.getPassword());
@@ -123,67 +121,5 @@ public class DangNhap {
         return n;
     }
 
-    public void taoTaiKhoan() {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        ArrayList<Lop> ds = (ArrayList<Lop>) session.createQuery("from Lop").list();
-        session.close();
-
-        for (int i = 0; i < ds.size(); i++) {
-            Lop l = ds.get(i);
-            Taikhoan tk = new Taikhoan(l.getMssv(), l.getMssv(), "0");
-            taoTaiKhoan(tk);
-        }
-
-        taoTaiKhoan(new Taikhoan("giaovu", "giaovu", "1"));
-
-        isCreatedDefaultAccount = true;
-
-    }
-
-    public void taoTaiKhoan(Taikhoan tk) {
-
-        if (kiemTraTKTonTai(tk.getTendangnhap())) {
-            return;
-        }
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        Transaction transaction = null;
-
-        try {
-            transaction = session.beginTransaction();
-            session.save(tk);
-            transaction.commit();
-        } catch (HibernateException e) {
-            //e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-    }
-
-    public boolean kiemTraTKTonTai(String id) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        Taikhoan tk = null;
-
-        try {
-            tk = (Taikhoan) session.get(Taikhoan.class, id);
-        } catch (HibernateException e) {
-            //e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        if (tk == null) {
-            return false;
-        }
-
-        return true;
-
-    }
-
+    
 }
