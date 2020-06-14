@@ -16,9 +16,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.print.Doc;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -29,7 +26,6 @@ import javax.swing.JTextField;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sv18120540_hibernate_pojo.Danhsachlop;
 import sv18120540_hibernate_pojo.DanhsachlopMonhoc;
 import sv18120540_hibernate_pojo.Diem;
 import sv18120540_hibernate_pojo.DiemId;
@@ -118,7 +114,7 @@ public class NhapDiem {
     public boolean nhapDiem() throws UnsupportedEncodingException, FileNotFoundException, IOException {
         String maLop = lop;
 
-        if (path.isEmpty()) {
+        if (path == null || maLop == null) {
             return false;
         }
 
