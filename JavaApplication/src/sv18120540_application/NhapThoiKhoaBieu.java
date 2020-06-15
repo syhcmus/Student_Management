@@ -40,7 +40,7 @@ public class NhapThoiKhoaBieu {
     String lop;
 
     public void kichHoat() {
-        
+
         JFrame frame = new JFrame("Nhập TKB");
         frame.setBounds(100, 100, 450, 300);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,11 +53,8 @@ public class NhapThoiKhoaBieu {
         String[] maLop = dsLop();
         lop = maLop[0];
         JComboBox comboBox = new JComboBox(maLop);
-        comboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lop = (String) comboBox.getSelectedItem();
-            }
+        comboBox.addActionListener((ActionEvent e) -> {
+            lop = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(145, 67, 122, 22);
         frame.getContentPane().add(comboBox);
@@ -70,9 +67,12 @@ public class NhapThoiKhoaBieu {
         JButton btnNewButton_1 = new JButton("Tạo TKB");
         btnNewButton_1.addActionListener((ActionEvent e) -> {
             try {
-                boolean isSuccess = taoTKB();
-                new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
-                
+                boolean isSuccess = false;
+                if (!lop.isEmpty() && path != null) {
+                    isSuccess = taoTKB();
+                    new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
+                }
+
                 String message = isSuccess ? "Tạo TKB thành công" : "Tạo TKB Thất bại";
                 JOptionPane.showMessageDialog(null, message);
             } catch (FileNotFoundException ex) {
@@ -104,14 +104,12 @@ public class NhapThoiKhoaBieu {
 
     }
 
-   
-
     public boolean taoTKB() throws UnsupportedEncodingException, FileNotFoundException, IOException {
         String malop = lop;
-        if (malop == null) {
+        if (malop.isEmpty()) {
             return false;
         }
-        
+
         boolean isSuccess = false;
 
         try {
@@ -120,10 +118,11 @@ public class NhapThoiKhoaBieu {
             //NhapDanhSachLop.themLopVaoDanhSach(dsLop);
 
             String duongDan = path;
-            
-            if(path == null)
+
+            if (path == null) {
                 return false;
-            
+            }
+
             BufferedReader file = new BufferedReader(
                     new InputStreamReader(
                             new FileInputStream(
@@ -144,14 +143,13 @@ public class NhapThoiKhoaBieu {
                 taoTKB(tkb);
 
             }
-            
+
             isSuccess = true;
 
-        } finally {           
+        } finally {
             return isSuccess;
         }
 
-        
     }
 
     public void taoTKB(Tkb tkb) {

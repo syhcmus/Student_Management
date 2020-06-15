@@ -42,7 +42,6 @@ public class DanhSachLopChoMonHoc {
         Iterator it = ds.iterator();
         while (it.hasNext()) {
             Tkb tkb = (Tkb) it.next();
-            System.out.println(tkb.getTenmon());
 
             maLop = tkb.getId().getMalop();
             maMon = tkb.getId().getMamon();
