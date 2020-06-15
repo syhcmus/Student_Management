@@ -12,12 +12,11 @@ package sv18120540_application;
 public class UngDungQuanLySinhVien {
 
     /**
-     * @param args the iacommand line arguments
+     * @param args 
      */
     public static void main(String[] args) {
         
         new DangNhap().kichHoat();
-        
         
     }
 

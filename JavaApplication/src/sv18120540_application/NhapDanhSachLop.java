@@ -59,7 +59,7 @@ public class NhapDanhSachLop {
         btnNewButton_1.setBounds(121, 153, 153, 25);
         btnNewButton_1.addActionListener(new TaoDanhSach());
         frame.getContentPane().add(btnNewButton_1);
-        
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -69,13 +69,20 @@ public class NhapDanhSachLop {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                themSinhVienVaoLop(path);
+
                 
-                JOptionPane.showMessageDialog(null, "Tạo Danh Sách Thành Công");
-                textField.setText("");
-                
-                TaoTaiKhoan.taoTaiKhoan();
-                
+                if (!textField.getText().isEmpty() && path != null) {
+                    boolean isSuccess = themSinhVienVaoLop(path);
+                    String message = isSuccess ? "Tạo Danh Sách Thành Công" : "Tạo Danh Sách Không Thành Công";
+
+                    TaoTaiKhoan.taoTaiKhoan(textField.getText());
+
+                    JOptionPane.showMessageDialog(null, message);
+                    textField.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
+                }
+
             } catch (UnsupportedEncodingException ex) {
                 JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
                 textField.setText("");
@@ -86,22 +93,20 @@ public class NhapDanhSachLop {
         }
 
     }
-    
-    
-    class LayDuongDan implements ActionListener{
+
+    class LayDuongDan implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser file = new JFileChooser();
             file.showOpenDialog(null);
-            
-             if (JFileChooser.APPROVE_OPTION == 0) {
-                 path = file.getSelectedFile().getPath();
-             }
-        }
-        
-    }
 
+            if (JFileChooser.APPROVE_OPTION == 0) {
+                path = file.getSelectedFile().getPath();
+            }
+        }
+
+    }
 
     public static boolean kiemTraSVTonTai(String maSinhVien) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -165,32 +170,40 @@ public class NhapDanhSachLop {
         return true;
     }
 
-    public void themSinhVienVaoLop(String duongDan) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+    public boolean themSinhVienVaoLop(String duongDan) throws FileNotFoundException, UnsupportedEncodingException, IOException {
 
-        String malop = textField.getText();
-        Danhsachlop dsLop = new Danhsachlop(malop);
-        themLopVaoDanhSach(dsLop);
+        boolean isSuccess = false;
 
-        BufferedReader file = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(
-                                new File(duongDan)), "UTF-8"));
+        try {
+            String malop = textField.getText();
+            Danhsachlop dsLop = new Danhsachlop(malop);
+            themLopVaoDanhSach(dsLop);
 
-        String duLieu = file.readLine();
+            BufferedReader file = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(
+                                    new File(duongDan)), "UTF-8"));
 
-        while ((duLieu = file.readLine()) != null && duLieu.isEmpty() == false) {
+            String duLieu = file.readLine();
 
-            String[] cot = duLieu.split(",", 0);
+            while ((duLieu = file.readLine()) != null && duLieu.isEmpty() == false) {
 
-            Lop lop = new Lop();
-            lop.setMssv(cot[1]);
-            lop.setHoten(cot[2]);
-            lop.setGioitinh(cot[3]);
-            lop.setCmnnd(cot[4]);
-            lop.setDanhsachlop(dsLop);
+                String[] cot = duLieu.split(",", 0);
 
-            themSinhVienVaoLop(lop);
+                Lop lop = new Lop();
+                lop.setMssv(cot[1]);
+                lop.setHoten(cot[2]);
+                lop.setGioitinh(cot[3]);
+                lop.setCmnnd(cot[4]);
+                lop.setDanhsachlop(dsLop);
 
+                themSinhVienVaoLop(lop);
+
+            }
+            
+            isSuccess = true;
+        } finally {
+            return isSuccess;
         }
 
     }

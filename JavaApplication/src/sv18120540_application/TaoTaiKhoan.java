@@ -33,6 +33,23 @@ public class TaoTaiKhoan {
 
     }
 
+    public static void taoTaiKhoan(String maLop) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        ArrayList<Lop> ds = (ArrayList<Lop>) session.createQuery("from Lop").list();
+        session.close();
+
+        for (int i = 0; i < ds.size(); i++) {
+            Lop l = ds.get(i);
+            if (l.getDanhsachlop().getMalop().equals(maLop)) {
+                Taikhoan tk = new Taikhoan(l.getMssv(), l.getMssv(), "0");
+                taoTaiKhoan(tk);
+            }
+        }
+
+    }
+
     public static void taoTaiKhoan(Taikhoan tk) {
 
         if (kiemTraTKTonTai(tk.getTendangnhap())) {
@@ -55,7 +72,7 @@ public class TaoTaiKhoan {
 
     }
 
-    public static  boolean kiemTraTKTonTai(String id) {
+    public static boolean kiemTraTKTonTai(String id) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
