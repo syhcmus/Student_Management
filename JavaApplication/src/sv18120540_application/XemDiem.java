@@ -150,6 +150,7 @@ class ThongKe extends Thread {
     public ThongKe(JTable table, String maLop) {
         this.table = table;
         this.maLop = maLop;
+        this.start();
     }
 
     
@@ -236,6 +237,7 @@ public class XemDiem {
             public void actionPerformed(ActionEvent e) {
                 if (!maLop.isEmpty()) {
                     new DiemLop(table, maLop);
+                    
                 }
             }
         });
@@ -283,21 +285,18 @@ public class XemDiem {
 
         JButton btnNewButton_3 = new JButton("Sửa Điểm");
         btnNewButton_3.setBounds(303, 253, 97, 25);
-        btnNewButton_3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String mssv = textField_1.getText();
-                
-
-                if (mssv.isEmpty() || maLop.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên");
-                    return;
-                }
-
-                new SuaDiem(new DiemId(mssv, maLop), table);
-                //frame.dispose();
+        btnNewButton_3.addActionListener((ActionEvent e) -> {
+            String mssv = textField_1.getText();
+            
+            
+            if (mssv.isEmpty() || maLop.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên");
+                return;
             }
+            
+            new SuaDiem(new DiemId(mssv, maLop), table);
+            textField_1.setText("");
+            //frame.dispose();
         });
         frame.getContentPane().add(btnNewButton_3);
 
