@@ -5,7 +5,6 @@
  */
 package sv18120540_application;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import sv18120540_hibernate_pojo.Danhsachlop;
@@ -30,21 +28,23 @@ import sv18120540_hibernate_pojo.LopMonhoc;
 class DanhSachLop extends Thread {
 
     
-    private JTable table_2;
-    private String maLop;
+    private JTable table;
+    private String classID;
 
-    public DanhSachLop(JTable table_2, String maLop) {
-        this.table_2 = table_2;
-        this.maLop = maLop;
-        this.start();
+    public DanhSachLop(JTable table, String classID) {
+        this.table = table;
+        this.classID = classID;
+        start();
     }
+
+   
 
    
 
     @Override
     public void run() {
 
-        String malop = maLop;
+        String malop = classID;
 
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MSSV");
@@ -94,9 +94,9 @@ class DanhSachLop extends Thread {
 
             }
 
-            table_2.setModel(model);
-            table_2.setAutoResizeMode(0);
-            table_2.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.setModel(model);
+            table.setAutoResizeMode(0);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
         } finally {
             session.close();
         }
@@ -109,8 +109,7 @@ public class XemDanhSach {
 
     private JTable table;
     private JFrame frame;
-    private JTextField textField;
-    private String maLop;
+    private String classID;
 
     public void kichHoat() {
 
@@ -119,30 +118,30 @@ public class XemDanhSach {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Lớp");
-        lblNewLabel.setBounds(30, 34, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã Lớp");
+        classIDLabel.setBounds(30, 34, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
        
-        String[] lop = dsLop();
-        maLop = lop[0];
-        JComboBox comboBox = new JComboBox(lop);
+        String[] classIDArr = dsLop();
+        classID = classIDArr[0];
+        JComboBox comboBox = new JComboBox(classIDArr);
         comboBox.addActionListener((ActionEvent e) -> {
-            maLop = (String) comboBox.getSelectedItem();
+            classID = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(113, 31, 111, 22);
         frame.getContentPane().add(comboBox);
 
-        JButton btnNewButton = new JButton("Xem Danh Sách");
-        btnNewButton.setBounds(281, 30, 139, 25);
-        btnNewButton.addActionListener(new ActionListener() {
+        JButton viewClassButton = new JButton("Xem Danh Sách");
+        viewClassButton.setBounds(281, 30, 139, 25);
+        viewClassButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
               
-                new DanhSachLop(table, maLop);
+                new DanhSachLop(table, classID);
             }
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(viewClassButton);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(30, 88, 390, 128);
@@ -151,20 +150,20 @@ public class XemDanhSach {
         table = new JTable();
         scrollPane.setViewportView(table);
 
-        JButton btnNewButton_1 = new JButton("Thêm Sinh Viên");
-        btnNewButton_1.setBounds(126, 227, 150, 25);
-        btnNewButton_1.addActionListener((ActionEvent e) -> {
+        JButton addStudentButton = new JButton("Thêm Sinh Viên");
+        addStudentButton.setBounds(126, 227, 150, 25);
+        addStudentButton.addActionListener((ActionEvent e) -> {
             //frame.dispose();
             frame = new ThemSinhVien().getFrame();
         });
-        frame.getContentPane().add(btnNewButton_1);
+        frame.getContentPane().add(addStudentButton);
 
-        JButton btnNewButton_2 = new JButton("Xóa Sinh Viên");
-        btnNewButton_2.setBounds(295, 227, 125, 25);
-        btnNewButton_2.addActionListener((ActionEvent e) -> {
+        JButton deleteStudentButton = new JButton("Xóa Sinh Viên");
+        deleteStudentButton.setBounds(295, 227, 125, 25);
+        deleteStudentButton.addActionListener((ActionEvent e) -> {
             new XoaSinhVien().kichHoat();
         });
-        frame.getContentPane().add(btnNewButton_2);
+        frame.getContentPane().add(deleteStudentButton);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

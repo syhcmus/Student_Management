@@ -6,7 +6,6 @@
 package sv18120540_application;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,9 +23,9 @@ import sv18120540_hibernate_pojo.Taikhoan;
 public class DoiMatKhau {
 
     private JFrame frame;
-    private JPasswordField passwordField;
+    private JPasswordField currentPassword;
     private String tenDangNhap;
-    private JPasswordField passwordField_1;
+    private JPasswordField newPassword;
 
     public DoiMatKhau(String tenDangNhap) {
         this.tenDangNhap = tenDangNhap;
@@ -51,17 +50,17 @@ public class DoiMatKhau {
         lblNewLabel.setBounds(56, 73, 81, 16);
         frame.getContentPane().add(lblNewLabel);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(216, 70, 137, 22);
-        frame.getContentPane().add(passwordField);
+        currentPassword = new JPasswordField();
+        currentPassword.setBounds(216, 70, 137, 22);
+        frame.getContentPane().add(currentPassword);
 
         JLabel lblNewLabel_1 = new JLabel("Mật khẩu mới");
         lblNewLabel_1.setBounds(56, 128, 81, 16);
         frame.getContentPane().add(lblNewLabel_1);
 
-        passwordField_1 = new JPasswordField();
-        passwordField_1.setBounds(216, 125, 137, 22);
-        frame.getContentPane().add(passwordField_1);
+        newPassword = new JPasswordField();
+        newPassword.setBounds(216, 125, 137, 22);
+        frame.getContentPane().add(newPassword);
 
         JButton btnNewButton = new JButton("Xác Nhận");
         btnNewButton.addActionListener((ActionEvent e) -> {
@@ -112,7 +111,7 @@ public class DoiMatKhau {
             return;
         }
         
-        tk.setMatkhau(new String(passwordField_1.getPassword()));
+        tk.setMatkhau(new String(newPassword.getPassword()));
 
         capNhatMK(tk);
 
@@ -125,7 +124,7 @@ public class DoiMatKhau {
         try {
 
             Taikhoan t = (Taikhoan) session.get(Taikhoan.class, tenDangNhap);
-            String mk = new String(passwordField.getPassword());
+            String mk = new String(currentPassword.getPassword());
 
             if (t.getMatkhau().equals(mk)) {
                 tk = t;

@@ -7,7 +7,6 @@ package sv18120540_application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,15 +29,15 @@ class DiemLop extends Thread {
 
     
     private JTable table;
-    private String maLop;
+    private String classID;
 
-    public DiemLop(JTable table, String maLop) {
+    public DiemLop(JTable table, String classID) {
         this.table = table;
-        this.maLop = maLop;
+        this.classID = classID;
         this.start();
     }
 
-    
+        
 
     @Override
     public void run() {
@@ -57,7 +56,7 @@ class DiemLop extends Thread {
 
             ArrayList<Diem> ds = (ArrayList<Diem>) session.createQuery("from Diem").list();
             for (int i = 0; i < ds.size(); i++) {
-                if (ds.get(i).getId().getMalopMonhoc().equals(maLop)) {
+                if (ds.get(i).getId().getMalopMonhoc().equals(classID)) {
                     Diem d = ds.get(i);
                     model.addRow(new Object[]{
                         d.getId().getMssv(),
@@ -84,14 +83,16 @@ class KetQua extends Thread {
 
    
     private JTable table;
-    private String maLop;
+    private String classID;
     private static final double score = 5;
 
-    public KetQua(JTable table, String maLop) {
+    public KetQua(JTable table, String classID) {
         this.table = table;
-        this.maLop = maLop;
+        this.classID = classID;
         this.start();
     }
+
+   
 
    
 
@@ -110,7 +111,7 @@ class KetQua extends Thread {
         try {
             ArrayList<Diem> ds = (ArrayList<Diem>) session.createQuery("from Diem").list();
             for (int i = 0; i < ds.size(); i++) {
-                if (ds.get(i).getId().getMalopMonhoc().equals(maLop)) {
+                if (ds.get(i).getId().getMalopMonhoc().equals(classID)) {
                     Diem d = ds.get(i);
                     String kq = null;
                     if (Double.compare(d.getDiemtong().doubleValue(), score) >= 0) {
@@ -144,14 +145,16 @@ class ThongKe extends Thread {
 
    
     private JTable table;
-    private String maLop;
+    private String classID;
     private static final double score = 5;
 
-    public ThongKe(JTable table, String maLop) {
+    public ThongKe(JTable table, String classID) {
         this.table = table;
-        this.maLop = maLop;
+        this.classID = classID;
         this.start();
     }
+
+    
 
     
 
@@ -171,7 +174,7 @@ class ThongKe extends Thread {
             float failed = 0;
 
             for (int i = 0; i < ds.size(); i++) {
-                if (ds.get(i).getId().getMalopMonhoc().equals(maLop)) {
+                if (ds.get(i).getId().getMalopMonhoc().equals(classID)) {
                     Diem d = ds.get(i);
                     if (Double.compare(d.getDiemtong().doubleValue(), score) >= 0) {
                         passed++;
@@ -208,8 +211,8 @@ public class XemDiem {
 
     //private JTextField textField;
     private JTable table;
-    private JTextField textField_1;
-    private String maLop;
+    private JTextField studentIDText;
+    private String classID;
 
     public void kichHoat() {
         JFrame frame = new JFrame("Xem Điểm");
@@ -217,31 +220,31 @@ public class XemDiem {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Lớp");
-        lblNewLabel.setBounds(30, 36, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã Lớp");
+        classIDLabel.setBounds(30, 36, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        String[] lop = new NhapDiem().dsLop();
-        maLop = lop[0];
-        JComboBox comboBox = new JComboBox(lop);
+        String[] classIDArr = new NhapDiem().dsLop();
+        classID = classIDArr[0];
+        JComboBox comboBox = new JComboBox(classIDArr);
         comboBox.addActionListener((ActionEvent e) -> {
-            maLop = (String) comboBox.getSelectedItem();
+            classID = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(135, 33, 116, 22);
         frame.getContentPane().add(comboBox);
 
-        JButton btnNewButton = new JButton("Xem Điểm");
-        btnNewButton.setBounds(303, 32, 97, 25);
-        btnNewButton.addActionListener(new ActionListener() {
+        JButton gradeButton = new JButton("Xem Điểm");
+        gradeButton.setBounds(303, 32, 97, 25);
+        gradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!maLop.isEmpty()) {
-                    new DiemLop(table, maLop);
+                if (!classID.isEmpty()) {
+                    new DiemLop(table, classID);
                     
                 }
             }
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(gradeButton);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(30, 121, 368, 119);
@@ -250,52 +253,52 @@ public class XemDiem {
         table = new JTable();
         scrollPane.setViewportView(table);
 
-        JButton btnNewButton_1 = new JButton("Kết Quả");
-        btnNewButton_1.setBounds(53, 84, 97, 25);
-        btnNewButton_1.addActionListener(new ActionListener() {
+        JButton resultButton = new JButton("Kết Quả");
+        resultButton.setBounds(53, 84, 97, 25);
+        resultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!maLop.isEmpty()) {
-                    new KetQua(table, maLop);
+                if (!classID.isEmpty()) {
+                    new KetQua(table, classID);
                 }
             }
         });
-        frame.getContentPane().add(btnNewButton_1);
+        frame.getContentPane().add(resultButton);
 
-        JButton btnNewButton_2 = new JButton("Thống Kê");
-        btnNewButton_2.setBounds(238, 84, 97, 25);
-        btnNewButton_2.addActionListener(new ActionListener() {
+        JButton statisticButton = new JButton("Thống Kê");
+        statisticButton.setBounds(238, 84, 97, 25);
+        statisticButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!maLop.isEmpty()) {
-                    new ThongKe(table, maLop);
+                if (!classID.isEmpty()) {
+                    new ThongKe(table, classID);
                 }
             }
         });
-        frame.getContentPane().add(btnNewButton_2);
+        frame.getContentPane().add(statisticButton);
 
-        JLabel lblNewLabel_1 = new JLabel("Mã Sinh Viên");
-        lblNewLabel_1.setBounds(30, 260, 97, 16);
-        frame.getContentPane().add(lblNewLabel_1);
+        JLabel studentIDNewLabel = new JLabel("Mã Sinh Viên");
+        studentIDNewLabel.setBounds(30, 260, 97, 16);
+        frame.getContentPane().add(studentIDNewLabel);
 
-        textField_1 = new JTextField();
-        textField_1.setBounds(135, 253, 116, 22);
-        frame.getContentPane().add(textField_1);
-        textField_1.setColumns(10);
+        studentIDText = new JTextField();
+        studentIDText.setBounds(135, 253, 116, 22);
+        frame.getContentPane().add(studentIDText);
+        studentIDText.setColumns(10);
 
         JButton btnNewButton_3 = new JButton("Sửa Điểm");
         btnNewButton_3.setBounds(303, 253, 97, 25);
         btnNewButton_3.addActionListener((ActionEvent e) -> {
-            String mssv = textField_1.getText();
+            String mssv = studentIDText.getText();
             
             
-            if (mssv.isEmpty() || maLop.isEmpty()) {
+            if (mssv.isEmpty() || classID.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nhập Thông tin Sinh Viên");
                 return;
             }
             
-            new SuaDiem(new DiemId(mssv, maLop), table);
-            textField_1.setText("");
+            new SuaDiem(new DiemId(mssv, classID), table);
+            studentIDText.setText("");
             //frame.dispose();
         });
         frame.getContentPane().add(btnNewButton_3);

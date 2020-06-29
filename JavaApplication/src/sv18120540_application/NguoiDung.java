@@ -13,14 +13,17 @@ import javax.swing.JFrame;
  */
 public abstract class NguoiDung {
     
-    protected String tenDangNhap;
+    protected String username;
     protected String matKhau;
     protected JFrame frame;
 
-    public NguoiDung(String tenDangNhap, String matKhau) {
-        this.tenDangNhap = tenDangNhap;
+   
+    public NguoiDung(String username, String matKhau) {
+        this.username = username;
         this.matKhau = matKhau;
     }
+    
+    
    
     public void doiMK(){
         

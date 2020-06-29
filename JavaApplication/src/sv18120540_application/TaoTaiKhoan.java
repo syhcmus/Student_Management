@@ -65,7 +65,7 @@ public class TaoTaiKhoan {
             session.save(tk);
             transaction.commit();
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -81,7 +81,7 @@ public class TaoTaiKhoan {
         try {
             tk = (Taikhoan) session.get(Taikhoan.class, id);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

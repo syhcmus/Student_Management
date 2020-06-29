@@ -72,15 +72,17 @@ class DiemMonHoc extends Thread {
 
 }
 
-public class SinhVien extends NguoiDung {
+public final class SinhVien extends NguoiDung {
 
     private JTable table;
-    private String monHoc;
+    private String subject;
 
-    public SinhVien(String tenDangNhap, String matKhau) {
-        super(tenDangNhap, matKhau);
+    public SinhVien(String username, String matKhau) {
+        super(username, matKhau);
         kichHoat();
     }
+
+    
 
     @Override
     public void kichHoat() {
@@ -90,33 +92,29 @@ public class SinhVien extends NguoiDung {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Tài khoản");
-        lblNewLabel.setBounds(133, 13, 81, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel accountLabel = new JLabel("Tài khoản");
+        accountLabel.setBounds(133, 13, 81, 16);
+        frame.getContentPane().add(accountLabel);
 
         Session sessoin = HibernateUtil.getSessionFactory().openSession();
-        Lop l = (Lop) sessoin.get(Lop.class, tenDangNhap);
+        Lop l = (Lop) sessoin.get(Lop.class, username);
         sessoin.close();
 
-        JTextField textField = new JTextField(String.format("%s - %s", l.getHoten(), tenDangNhap));
-        textField.setEditable(false);
-        textField.setBounds(243, 10, 162, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        JTextField classIDField = new JTextField(String.format("%s - %s", l.getHoten(), username));
+        classIDField.setEditable(false);
+        classIDField.setBounds(243, 10, 162, 22);
+        frame.getContentPane().add(classIDField);
+        classIDField.setColumns(10);
 
-        String[] m = monHoc();
-        monHoc = m[0];
-        JComboBox comboBox = new JComboBox(monHoc());
+        String[] subjectArr = monHoc();
+        subject = subjectArr[0];
+        JComboBox comboBox = new JComboBox(subjectArr);
         comboBox.addActionListener((ActionEvent e) -> {
-            monHoc = (String) comboBox.getSelectedItem();
-            System.out.println(monHoc);
+            subject = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(116, 90, 162, 22);
         frame.getContentPane().add(comboBox);
-        /*
-        table = new JTable();
-        table.setBounds(12, 127, 392, 85);
-        frame.getContentPane().add(table);*/
+        
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(12, 127, 392, 85);
@@ -125,46 +123,46 @@ public class SinhVien extends NguoiDung {
         table = new JTable();
         scrollPane.setViewportView(table);
 
-        JLabel lblNewLabel_1 = new JLabel("Môn học");
-        lblNewLabel_1.setBounds(12, 93, 56, 16);
-        frame.getContentPane().add(lblNewLabel_1);
+        JLabel subjectLabel = new JLabel("Môn học");
+        subjectLabel.setBounds(12, 93, 56, 16);
+        frame.getContentPane().add(subjectLabel);
 
-        JButton btnNewButton_1 = new JButton("Xem Điểm");
-        btnNewButton_1.setBounds(308, 89, 97, 25);
-        btnNewButton_1.addActionListener((ActionEvent e) -> {
+        JButton gradeButton = new JButton("Xem Điểm");
+        gradeButton.setBounds(308, 89, 97, 25);
+        gradeButton.addActionListener((ActionEvent e) -> {
             Diem diem = timMonHocSinhVien();
             if (diem != null) {
                 new DiemMonHoc(table, diem);
             }
             else{
-                JOptionPane.showMessageDialog(null, "Điểm Môn " + monHoc + " chưa cập nhật");
+                JOptionPane.showMessageDialog(null, "Điểm Môn " + subject + " chưa cập nhật");
             }
         });
-        frame.getContentPane().add(btnNewButton_1);
+        frame.getContentPane().add(gradeButton);
 
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
 
-        JMenu mnNewMenu = new JMenu("Cài đặt");
-        menuBar.add(mnNewMenu);
+        JMenu setupMenu = new JMenu("Cài đặt");
+        menuBar.add(setupMenu);
 
-        JMenuItem mntmNewMenuItem_1 = new JMenuItem("Đổi mật khẩu");
-        mntmNewMenuItem_1.addActionListener((ActionEvent e) -> {
+        JMenuItem changePasswordItem = new JMenuItem("Đổi mật khẩu");
+        changePasswordItem.addActionListener((ActionEvent e) -> {
             frame.dispose();
-            frame = new DoiMatKhau(tenDangNhap).getFrame();
+            frame = new DoiMatKhau(username).getFrame();
             frame.setVisible(true);
         });
-        mnNewMenu.add(mntmNewMenuItem_1);
+        setupMenu.add(changePasswordItem);
 
-        JMenuItem mntmNewMenuItem = new JMenuItem("Đăng xuất");
-        mntmNewMenuItem.addActionListener(new ActionListener() {
+        JMenuItem logoutItem = new JMenuItem("Đăng xuất");
+        logoutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 new DangNhap().kichHoat();
             }
         });
-        mnNewMenu.add(mntmNewMenuItem);
+        setupMenu.add(logoutItem);
 
         frame.setLocationRelativeTo(null);
 
@@ -179,7 +177,7 @@ public class SinhVien extends NguoiDung {
 
             for (int i = 0; i < ds.size(); i++) {
                 LopMonhoc l = ds.get(i);
-                if (l.getId().getMssv().equals(tenDangNhap)) {
+                if (l.getId().getMssv().equals(username)) {
                     String maLopMonHoc = l.getDanhsachlopMonhoc().getMalopMonhoc();
                     String maLop = maLopMonHoc.split("-", 0)[0];
                     String maMon = maLopMonHoc.split("-", 0)[1];
@@ -204,28 +202,19 @@ public class SinhVien extends NguoiDung {
         Diem diem = null;
 
         try {
-            /*
-            Lop l = (Lop) session.get(Lop.class, tenDangNhap);
-            String maLop = l.getDanhsachlop().getMalop();
-            Tkb t = (Tkb) session.createQuery("from Tkb").list().get(0);
-            String maMon = t.getId().getMamon();
-            String malopMamon = String.format("%s-%s", maLop, maMon);
-            String mssv = tenDangNhap;
-            DiemId id = new DiemId(mssv, malopMamon);
-            
-            return id;*/
+           
 
             ArrayList<Diem> ds = (ArrayList<Diem>) session.createQuery("from Diem").list();
             for (int i = 0; i < ds.size(); i++) {
 
-                if (ds.get(i).getId().getMssv().equals(tenDangNhap)) {
+                if (ds.get(i).getId().getMssv().equals(username)) {
                     String maLopMaMon = ds.get(i).getDanhsachlopMonhoc().getMalopMonhoc();
                     String maLop = maLopMaMon.split("-", 0)[0];
                     String maMon = maLopMaMon.split("-", 0)[1];
                     TkbId tkbID = new TkbId(maLop, maMon);
                     Tkb tkb = (Tkb) session.get(Tkb.class, tkbID);
 
-                    if (tkb.getTenmon().equals(monHoc)) {
+                    if (tkb.getTenmon().equals(subject)) {
                         diem = ds.get(i);
 
                         break;

@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
 import sv18120540_hibernate_pojo.Tkb;
@@ -26,13 +25,15 @@ import sv18120540_hibernate_pojo.Tkb;
 class DSThoiKhoaBieu extends Thread {
 
     private JTable table;
-    private String maLop;
+    private String classID;
 
-    public DSThoiKhoaBieu(JTable table, String maLop) {
+    public DSThoiKhoaBieu(JTable table, String classID) {
         this.table = table;
-        this.maLop = maLop;
-        start();
+        this.classID = classID;
+        this.start();
     }
+
+   
 
     @Override
     public void run() {
@@ -47,7 +48,7 @@ class DSThoiKhoaBieu extends Thread {
             ArrayList<Tkb> ds = (ArrayList<Tkb>) session.createQuery("from Tkb").list();
 
             for (int i = 0; i < ds.size(); i++) {
-                if (ds.get(i).getDanhsachlop().getMalop().equals(maLop)) {
+                if (ds.get(i).getDanhsachlop().getMalop().equals(classID)) {
                     Tkb tkb = ds.get(i);
                     model.addRow(new Object[]{
                         tkb.getId().getMamon(),
@@ -72,9 +73,8 @@ class DSThoiKhoaBieu extends Thread {
 
 public class XemTKB {
 
-    private JTextField textField;
     private JTable table;
-    private String maLop;
+    private String classID;
 
     public void kichHoat() {
         JFrame frame = new JFrame("Xem Thời Khóa Biểu");
@@ -82,36 +82,32 @@ public class XemTKB {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Lớp");
-        lblNewLabel.setBounds(42, 54, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã Lớp");
+        classIDLabel.setBounds(42, 54, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        /*
-        textField = new JTextField();
-        textField.setBounds(146, 51, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);*/
-        String[] lop = new NhapThoiKhoaBieu().dsLop();
-        maLop = lop[0];
-        JComboBox comboBox = new JComboBox(lop);
+       
+        String[] classIDArr = new NhapThoiKhoaBieu().dsLop();
+        classID = classIDArr[0];
+        JComboBox comboBox = new JComboBox(classIDArr);
         comboBox.addActionListener((ActionEvent e) -> {
-            maLop = (String) comboBox.getSelectedItem();
+            classID = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(115, 51, 116, 22);
         frame.getContentPane().add(comboBox);
 
-        JButton btnNewButton = new JButton("Xem TKB");
-        btnNewButton.setBounds(297, 50, 97, 25);
+        JButton sheduleButton = new JButton("Xem TKB");
+        sheduleButton.setBounds(297, 50, 97, 25);
 
-        btnNewButton.addActionListener(new ActionListener() {
+        sheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
 
-                new DSThoiKhoaBieu(table, maLop);
+                new DSThoiKhoaBieu(table, classID);
             }
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(sheduleButton);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(41, 99, 353, 127);

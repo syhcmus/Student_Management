@@ -25,8 +25,8 @@ import sv18120540_hibernate_pojo.LopMonhocId;
  */
 public class XoaSinhVien {
 
-    private JTextField textField;
-    private String maLop;
+    private JTextField studentIDText;
+    private String classID;
 
     public void kichHoat() {
         JFrame frame = new JFrame("Xóa Sinh Viên");
@@ -34,36 +34,36 @@ public class XoaSinhVien {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Sinh Viên");
-        lblNewLabel.setBounds(51, 51, 89, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel studentIDLabel = new JLabel("Mã Sinh Viên");
+        studentIDLabel.setBounds(51, 51, 89, 16);
+        frame.getContentPane().add(studentIDLabel);
 
-        textField = new JTextField();
-        textField.setBounds(213, 48, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        studentIDText = new JTextField();
+        studentIDText.setBounds(213, 48, 116, 22);
+        frame.getContentPane().add(studentIDText);
+        studentIDText.setColumns(10);
 
-        JLabel lblNewLabel_1 = new JLabel("Mã Lớp");
-        lblNewLabel_1.setBounds(51, 121, 73, 16);
-        frame.getContentPane().add(lblNewLabel_1);
+        JLabel classIDLabel = new JLabel("Mã Lớp");
+        classIDLabel.setBounds(51, 121, 73, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        String[] lop = new XemDanhSach().dsLop();
-        maLop = lop[0];
-        JComboBox comboBox = new JComboBox(lop);
+        String[] classIDArr = new XemDanhSach().dsLop();
+        classID = classIDArr[0];
+        JComboBox comboBox = new JComboBox(classIDArr);
         comboBox.addActionListener((ActionEvent e) -> {
-            maLop = (String) comboBox.getSelectedItem();
+            classID = (String) comboBox.getSelectedItem();
         });
         comboBox.setBounds(213, 118, 116, 22);
         frame.getContentPane().add(comboBox);
 
-        JButton btnNewButton = new JButton("Xác nhận");
-        btnNewButton.addActionListener((ActionEvent e) -> {
+        JButton confirmButton = new JButton("Xác nhận");
+       confirmButton.addActionListener((ActionEvent e) -> {
             xoaSinhVien();
             frame.dispose();
         });
 
-        btnNewButton.setBounds(162, 182, 97, 25);
-        frame.getContentPane().add(btnNewButton);
+        confirmButton.setBounds(162, 182, 97, 25);
+        frame.getContentPane().add(confirmButton);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -72,13 +72,13 @@ public class XoaSinhVien {
     public void xoaSinhVien() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         boolean isSuccess = false;
-        String mssv = textField.getText();
+        String mssv = studentIDText.getText();
         
         try {
 
             Lop l = (Lop) session.get(Lop.class, mssv);
             if (l != null) {
-                if (l.getDanhsachlop().getMalop().equals(maLop)) {
+                if (l.getDanhsachlop().getMalop().equals(classID)) {
                     session.close();
                     
                     
@@ -89,7 +89,7 @@ public class XoaSinhVien {
 
             if (isSuccess == false) {
                 session = HibernateUtil.getSessionFactory().openSession();
-                LopMonhoc lm = (LopMonhoc) session.get(LopMonhoc.class, new LopMonhocId(mssv, maLop));
+                LopMonhoc lm = (LopMonhoc) session.get(LopMonhoc.class, new LopMonhocId(mssv, classID));
                 session.close();
 
                 if (lm != null) {
@@ -121,7 +121,7 @@ public class XoaSinhVien {
             isSuccess = true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            //System.err.println(ex);
+            ex.printStackTrace();
         } finally {
             session.close();
             return isSuccess;

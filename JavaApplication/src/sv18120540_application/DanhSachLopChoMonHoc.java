@@ -12,7 +12,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sv18120540_hibernate_pojo.Danhsachlop;
 import sv18120540_hibernate_pojo.DanhsachlopMonhoc;
 import sv18120540_hibernate_pojo.Lop;
 import sv18120540_hibernate_pojo.LopMonhoc;
@@ -77,12 +76,14 @@ public class DanhSachLopChoMonHoc {
         }
     }
 
-    public void taoDsLopMonHoc(LopMonhoc lop) {
+    public static boolean taoDsLopMonHoc(LopMonhoc lop) {
 
+        boolean isSuccess = false;
         Session session = HibernateUtil.getSessionFactory().openSession();
+        
 
         if (kiemTraSVTonTai(lop.getId()) == true) {
-            return;
+            return false;
         }
 
         Transaction transaction = null;
@@ -91,10 +92,12 @@ public class DanhSachLopChoMonHoc {
             transaction = session.beginTransaction();
             session.save(lop);
             transaction.commit();
+            isSuccess = true;
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
+            return isSuccess;
         }
 
     }
@@ -107,7 +110,7 @@ public class DanhSachLopChoMonHoc {
         try {
             lop = (LopMonhoc) session.get(LopMonhoc.class, id);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -153,7 +156,7 @@ public class DanhSachLopChoMonHoc {
             session.save(lop);
             transaction.commit();
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

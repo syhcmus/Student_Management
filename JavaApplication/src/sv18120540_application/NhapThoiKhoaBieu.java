@@ -21,7 +21,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -35,9 +34,9 @@ import sv18120540_hibernate_pojo.TkbId;
  */
 public class NhapThoiKhoaBieu {
 
-    private JTextField textField;
+    
     private String path;
-    String lop;
+    String classID;
 
     public void kichHoat() {
 
@@ -46,29 +45,29 @@ public class NhapThoiKhoaBieu {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã lớp");
-        lblNewLabel.setBounds(54, 70, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã lớp");
+        classIDLabel.setBounds(54, 70, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        String[] maLop = dsLop();
-        lop = maLop[0];
-        JComboBox comboBox = new JComboBox(maLop);
-        comboBox.addActionListener((ActionEvent e) -> {
-            lop = (String) comboBox.getSelectedItem();
+        String[] classIDArr = dsLop();
+        classID = classIDArr[0];
+        JComboBox classIDcomboBox = new JComboBox(classIDArr);
+        classIDcomboBox.addActionListener((ActionEvent e) -> {
+            classID = (String) classIDcomboBox.getSelectedItem();
         });
-        comboBox.setBounds(145, 67, 122, 22);
-        frame.getContentPane().add(comboBox);
+        classIDcomboBox.setBounds(145, 67, 122, 22);
+        frame.getContentPane().add(classIDcomboBox);
 
-        JButton btnNewButton = new JButton("File");
-        btnNewButton.addActionListener(new LayDuongDan());
-        btnNewButton.setBounds(301, 66, 97, 25);
-        frame.getContentPane().add(btnNewButton);
+        JButton fileButton = new JButton("File");
+        fileButton.addActionListener(new LayDuongDan());
+        fileButton.setBounds(301, 66, 97, 25);
+        frame.getContentPane().add(fileButton);
 
-        JButton btnNewButton_1 = new JButton("Tạo TKB");
-        btnNewButton_1.addActionListener((ActionEvent e) -> {
+        JButton createSheduleButton = new JButton("Tạo TKB");
+        createSheduleButton.addActionListener((ActionEvent e) -> {
             try {
                 boolean isSuccess = false;
-                if (!lop.isEmpty() && path != null) {
+                if (!classID.isEmpty() && path != null) {
                     isSuccess = taoTKB();
                     new DanhSachLopChoMonHoc().taoDanhSachLopMonHoc();
                 }
@@ -76,15 +75,15 @@ public class NhapThoiKhoaBieu {
                 String message = isSuccess ? "Tạo TKB thành công" : "Tạo TKB Thất bại";
                 JOptionPane.showMessageDialog(null, message);
             } catch (FileNotFoundException ex) {
-                //Logger.getLogger(NhapThoiKhoaBieu.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Tạo TKB Thất bại");
             } catch (IOException ex) {
-                //Logger.getLogger(NhapThoiKhoaBieu.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Tạo TKB Thất bại");
             }
         });
-        btnNewButton_1.setBounds(158, 159, 97, 25);
-        frame.getContentPane().add(btnNewButton_1);
+        createSheduleButton.setBounds(158, 159, 97, 25);
+        frame.getContentPane().add(createSheduleButton);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -105,7 +104,7 @@ public class NhapThoiKhoaBieu {
     }
 
     public boolean taoTKB() throws UnsupportedEncodingException, FileNotFoundException, IOException {
-        String malop = lop;
+        String malop = classID;
         if (malop.isEmpty()) {
             return false;
         }
@@ -115,8 +114,7 @@ public class NhapThoiKhoaBieu {
         try {
 
             Danhsachlop dsLop = new Danhsachlop(malop);
-            //NhapDanhSachLop.themLopVaoDanhSach(dsLop);
-
+          
             String duongDan = path;
 
             if (path == null) {
@@ -181,7 +179,7 @@ public class NhapThoiKhoaBieu {
         try {
             tkb = (Tkb) session.get(Tkb.class, id);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

@@ -6,7 +6,6 @@
 package sv18120540_application;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,12 +18,14 @@ import javax.swing.JTextField;
  *
  * @author Sy Pham
  */
-public class GiaoVu extends NguoiDung {
+public final class GiaoVu extends NguoiDung {
 
-    public GiaoVu(String tenDangNhap, String matKhau) {
-        super(tenDangNhap, matKhau);
+    public GiaoVu(String username, String matKhau) {
+        super(username, matKhau);
         kichHoat();
     }
+
+   
 
     @Override
     public void kichHoat() {
@@ -33,58 +34,58 @@ public class GiaoVu extends NguoiDung {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Tài khoản");
-        lblNewLabel.setBounds(88, 13, 92, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel accountLabel = new JLabel("Tài khoản");
+        accountLabel.setBounds(88, 13, 92, 16);
+        frame.getContentPane().add(accountLabel);
 
-        JTextField txtGioV = new JTextField();
-        txtGioV.setText("Giáo vụ");
-        txtGioV.setEditable(false);
-        txtGioV.setBounds(229, 10, 161, 22);
-        frame.getContentPane().add(txtGioV);
-        txtGioV.setColumns(10);
+        JTextField nameAccountLabel = new JTextField();
+        nameAccountLabel.setText("Giáo vụ");
+        nameAccountLabel.setEditable(false);
+        nameAccountLabel.setBounds(229, 10, 161, 22);
+        frame.getContentPane().add(nameAccountLabel);
+        nameAccountLabel.setColumns(10);
 
-        JButton btnNewButton = new JButton("Nhập Danh Sách Lớp");
-        btnNewButton.setBounds(12, 61, 168, 25);
-        btnNewButton.addActionListener((ActionEvent e) -> {
+        JButton enterClassButton = new JButton("Nhập Danh Sách Lớp");
+        enterClassButton.setBounds(12, 61, 168, 25);
+        enterClassButton.addActionListener((ActionEvent e) -> {
             new NhapDanhSachLop().kichHoat();
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(enterClassButton);
 
-        JButton btnNewButton_2 = new JButton("Nhập TKB");
-        btnNewButton_2.addActionListener((ActionEvent e) -> {
+        JButton enterSheduleButton = new JButton("Nhập TKB");
+        enterSheduleButton.addActionListener((ActionEvent e) -> {
             new NhapThoiKhoaBieu().kichHoat();
         });
-        btnNewButton_2.setBounds(12, 115, 168, 25);
-        frame.getContentPane().add(btnNewButton_2);
+        enterSheduleButton.setBounds(12, 115, 168, 25);
+        frame.getContentPane().add(enterSheduleButton);
 
-        JButton btnNewButton_1 = new JButton("Nhập Điểm");
-        btnNewButton_1.addActionListener((ActionEvent e) -> {
+        JButton enterGradeButton = new JButton("Nhập Điểm");
+        enterGradeButton.addActionListener((ActionEvent e) -> {
             new NhapDiem().kichHoat();
         });
-        btnNewButton_1.setBounds(12, 163, 168, 25);
-        frame.getContentPane().add(btnNewButton_1);
+        enterGradeButton.setBounds(12, 163, 168, 25);
+        frame.getContentPane().add(enterGradeButton);
 
-        JButton btnNewButton_3 = new JButton("Danh Sách Lớp");
-        btnNewButton_3.addActionListener((ActionEvent e) -> {
+        JButton viewClassButton = new JButton("Danh Sách Lớp");
+        viewClassButton.addActionListener((ActionEvent e) -> {
             new XemDanhSach().kichHoat();
         });
-        btnNewButton_3.setBounds(229, 61, 161, 25);
-        frame.getContentPane().add(btnNewButton_3);
+        viewClassButton.setBounds(229, 61, 161, 25);
+        frame.getContentPane().add(viewClassButton);
 
-        JButton btnNewButton_4 = new JButton("Thời Khóa Biểu");
-        btnNewButton_4.addActionListener((ActionEvent e) -> {
+        JButton viewSheduleButton = new JButton("Thời Khóa Biểu");
+        viewSheduleButton.addActionListener((ActionEvent e) -> {
             new XemTKB().kichHoat();
         });
-        btnNewButton_4.setBounds(229, 115, 161, 25);
-        frame.getContentPane().add(btnNewButton_4);
+        viewSheduleButton.setBounds(229, 115, 161, 25);
+        frame.getContentPane().add(viewSheduleButton);
 
-        JButton btnNewButton_5 = new JButton("Điểm");
-        btnNewButton_5.addActionListener((ActionEvent e) -> {
+        JButton viewGradeButton = new JButton("Điểm");
+        viewGradeButton.addActionListener((ActionEvent e) -> {
             new XemDiem().kichHoat();
         });
-        btnNewButton_5.setBounds(229, 163, 161, 25);
-        frame.getContentPane().add(btnNewButton_5);
+        viewGradeButton.setBounds(229, 163, 161, 25);
+        frame.getContentPane().add(viewGradeButton);
 
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
@@ -92,20 +93,20 @@ public class GiaoVu extends NguoiDung {
         JMenu mnNewMenu = new JMenu("Cài đặt");
         menuBar.add(mnNewMenu);
 
-        JMenuItem mntmNewMenuItem_1 = new JMenuItem("Đổi mật khẩu");
-        mntmNewMenuItem_1.addActionListener((ActionEvent e) -> {
+        JMenuItem changePasswordItem = new JMenuItem("Đổi mật khẩu");
+        changePasswordItem.addActionListener((ActionEvent e) -> {
             frame.dispose();
-            frame = new DoiMatKhau(tenDangNhap).getFrame();
+            frame = new DoiMatKhau(username).getFrame();
             frame.setVisible(true);
         });
-        mnNewMenu.add(mntmNewMenuItem_1);
+        mnNewMenu.add(changePasswordItem);
 
-        JMenuItem mntmNewMenuItem = new JMenuItem("Đăng xuất");
-        mntmNewMenuItem.addActionListener((ActionEvent e) -> {
+        JMenuItem logoutItem = new JMenuItem("Đăng xuất");
+        logoutItem.addActionListener((ActionEvent e) -> {
             frame.dispose();
             new DangNhap().kichHoat();
         });
-        mnNewMenu.add(mntmNewMenuItem);
+        mnNewMenu.add(logoutItem);
 
         frame.setLocationRelativeTo(null);
         //frame.setVisible(true);

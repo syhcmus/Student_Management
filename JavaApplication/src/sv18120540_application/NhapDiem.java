@@ -22,7 +22,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -37,9 +36,9 @@ import sv18120540_hibernate_pojo.Lop;
  */
 public class NhapDiem {
 
-    private JTextField textField;
+    
     private String path;
-    private String lop;
+    private String classID;
 
     public void kichHoat() {
        
@@ -48,28 +47,28 @@ public class NhapDiem {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã lớp");
-        lblNewLabel.setBounds(44, 66, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã lớp");
+        classIDLabel.setBounds(44, 66, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
         String[] malop = dsLop();
-        lop = malop[0];
-        JComboBox comboBox = new JComboBox(malop);
-        comboBox.addActionListener((ActionEvent e) -> {
-            lop = (String) comboBox.getSelectedItem();
+        classID = malop[0];
+        JComboBox classIDcomboBox = new JComboBox(malop);
+        classIDcomboBox.addActionListener((ActionEvent e) -> {
+            classID = (String) classIDcomboBox.getSelectedItem();
         });
-        comboBox.setBounds(149, 63, 125, 22);
-        frame.getContentPane().add(comboBox);
+        classIDcomboBox.setBounds(149, 63, 125, 22);
+        frame.getContentPane().add(classIDcomboBox);
 
-        JButton btnNewButton = new JButton("File");
-        btnNewButton.addActionListener(new LayDuongDan());
-        btnNewButton.setBounds(323, 62, 97, 25);
-        frame.getContentPane().add(btnNewButton);
+        JButton fileButton = new JButton("File");
+        fileButton.addActionListener(new LayDuongDan());
+        fileButton.setBounds(323, 62, 97, 25);
+        frame.getContentPane().add(fileButton);
 
-        JButton btnNewButton_1 = new JButton("Nhập điểm");
-        btnNewButton_1.addActionListener(new NhapDiemLop());
-        btnNewButton_1.setBounds(149, 173, 117, 25);
-        frame.getContentPane().add(btnNewButton_1);
+        JButton gradeButton = new JButton("Nhập điểm");
+        gradeButton.addActionListener(new NhapDiemLop());
+        gradeButton.setBounds(149, 173, 117, 25);
+        frame.getContentPane().add(gradeButton);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -99,10 +98,10 @@ public class NhapDiem {
                 JOptionPane.showMessageDialog(null, message);
 
             } catch (FileNotFoundException ex) {
-                //Logger.getLogger(NhapDiem.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Nhập điểm thất bại");
             } catch (IOException ex) {
-                //Logger.getLogger(NhapDiem.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Nhập điểm thất bại");
 
             }
@@ -112,7 +111,7 @@ public class NhapDiem {
     }
 
     public boolean nhapDiem() throws UnsupportedEncodingException, FileNotFoundException, IOException {
-        String maLop = lop;
+        String maLop = classID;
 
         if (path == null || maLop == null) {
             return false;
@@ -191,7 +190,7 @@ public class NhapDiem {
             session.save(diem);
             transaction.commit();
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

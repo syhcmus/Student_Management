@@ -32,7 +32,7 @@ import sv18120540_hibernate_pojo.Lop;
  */
 public class NhapDanhSachLop {
 
-    private JTextField textField;
+    private JTextField classIDText;
     private String path;
 
     public void kichHoat() {
@@ -41,24 +41,24 @@ public class NhapDanhSachLop {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Mã Lớp");
-        lblNewLabel.setBounds(45, 65, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel classIDLabel = new JLabel("Mã Lớp");
+        classIDLabel.setBounds(45, 65, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        textField = new JTextField();
-        textField.setBounds(136, 62, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        classIDText = new JTextField();
+        classIDText.setBounds(136, 62, 116, 22);
+        frame.getContentPane().add(classIDText);
+        classIDText.setColumns(10);
 
-        JButton btnNewButton = new JButton("File");
-        btnNewButton.setBounds(296, 61, 70, 25);
-        btnNewButton.addActionListener(new LayDuongDan());
-        frame.getContentPane().add(btnNewButton);
+        JButton fileButton = new JButton("File");
+        fileButton.setBounds(296, 61, 70, 25);
+        fileButton.addActionListener(new LayDuongDan());
+        frame.getContentPane().add(fileButton);
 
-        JButton btnNewButton_1 = new JButton("Tạo Danh Sách");
-        btnNewButton_1.setBounds(121, 153, 153, 25);
-        btnNewButton_1.addActionListener(new TaoDanhSach());
-        frame.getContentPane().add(btnNewButton_1);
+        JButton createClassButton = new JButton("Tạo Danh Sách");
+        createClassButton.setBounds(121, 153, 153, 25);
+        createClassButton.addActionListener(new TaoDanhSach());
+        frame.getContentPane().add(createClassButton);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -71,24 +71,24 @@ public class NhapDanhSachLop {
             try {
 
                 
-                if (!textField.getText().isEmpty() && path != null) {
+                if (!classIDText.getText().isEmpty() && classIDText != null && path != null) {
                     boolean isSuccess = themSinhVienVaoLop(path);
                     String message = isSuccess ? "Tạo Danh Sách Thành Công" : "Tạo Danh Sách Không Thành Công";
 
-                    TaoTaiKhoan.taoTaiKhoan(textField.getText());
+                    TaoTaiKhoan.taoTaiKhoan(classIDText.getText());
 
                     JOptionPane.showMessageDialog(null, message);
-                    textField.setText("");
+                    classIDText.setText("");
                 } else {
                     JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
                 }
 
             } catch (UnsupportedEncodingException ex) {
                 JOptionPane.showMessageDialog(null, "Tạo Danh Sách Không Thành Công");
-                textField.setText("");
+                classIDText.setText("");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Tạo Danh Sách Thành Công - Lỗi file");
-                textField.setText("");
+                classIDText.setText("");
             }
         }
 
@@ -116,7 +116,7 @@ public class NhapDanhSachLop {
         try {
             lop = (Lop) session.get(Lop.class, maSinhVien);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -136,7 +136,7 @@ public class NhapDanhSachLop {
         try {
             dsLop = (Danhsachlop) session.get(Danhsachlop.class, maLop);
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -162,7 +162,7 @@ public class NhapDanhSachLop {
             session.save(lop);
             transaction.commit();
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -175,7 +175,7 @@ public class NhapDanhSachLop {
         boolean isSuccess = false;
 
         try {
-            String malop = textField.getText();
+            String malop = classIDText.getText();
             Danhsachlop dsLop = new Danhsachlop(malop);
             themLopVaoDanhSach(dsLop);
 
@@ -222,7 +222,7 @@ public class NhapDanhSachLop {
             session.save(lop);
             transaction.commit();
         } catch (HibernateException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }

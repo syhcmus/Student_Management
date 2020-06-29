@@ -24,36 +24,33 @@ import sv18120540_hibernate_pojo.DiemId;
  *
  * @author Sy Pham
  */
-public class SuaDiem extends Thread {
+public class SuaDiem //extends Thread 
+{
 
     private DiemId id;
     private Diem diem;
     private JTable table;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
-    private JTextField textField_4;
-    private JTextField textField_5;
+    private JTextField studentIDText;
+    private JTextField classIDText;
+    private JTextField immediateGradeText;
+    private JTextField finalGradeText;
+    private JTextField otherGradeText;
+    private JTextField resultGradeText;
 
     public SuaDiem(DiemId id, JTable table) {
         this.id = id;
         this.table = table;
-        this.start();
+        if(kiemTraThongTinSinhVien())
+            kichHoat();
 
     }
 
-    public SuaDiem() {
-    }
     
-    
-
-    @Override
-    public void run() {
-
-        if (NhapDiem.kiemTraDiemTonTai(id) == false) {
+    public boolean kiemTraThongTinSinhVien(){
+        
+         if (NhapDiem.kiemTraDiemTonTai(id) == false) {
             JOptionPane.showMessageDialog(null, "MSSV Không Đúng Hoặc Không Tồn Tại Trong Lớp");
-            return;
+            return false;
         }
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -61,9 +58,11 @@ public class SuaDiem extends Thread {
         diem = (Diem) session.get(Diem.class, id);
         
         session.close();
-
-        kichHoat();
+        
+        return true;
+        
     }
+    
 
     public void kichHoat() {
         JFrame frame = new JFrame("Sửa Điểm");
@@ -71,43 +70,43 @@ public class SuaDiem extends Thread {
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("MSSV");
-        lblNewLabel.setBounds(74, 39, 56, 16);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel studentIDLabel = new JLabel("MSSV");
+        studentIDLabel.setBounds(74, 39, 56, 16);
+        frame.getContentPane().add(studentIDLabel);
 
-        textField = new JTextField();
-        textField.setBounds(237, 36, 116, 22);
-        frame.getContentPane().add(textField);
-        textField.setColumns(10);
+        studentIDText = new JTextField();
+        studentIDText.setBounds(237, 36, 116, 22);
+        frame.getContentPane().add(studentIDText);
+        studentIDText.setColumns(10);
 
-        JLabel lblNewLabel_1 = new JLabel("Lớp");
-        lblNewLabel_1.setBounds(74, 81, 56, 16);
-        frame.getContentPane().add(lblNewLabel_1);
+        JLabel classIDLabel = new JLabel("Lớp");
+        classIDLabel.setBounds(74, 81, 56, 16);
+        frame.getContentPane().add(classIDLabel);
 
-        textField_1 = new JTextField();
-        textField_1.setBounds(237, 78, 116, 22);
-        frame.getContentPane().add(textField_1);
-        textField_1.setColumns(10);
+        classIDText = new JTextField();
+        classIDText.setBounds(237, 78, 116, 22);
+        frame.getContentPane().add(classIDText);
+        classIDText.setColumns(10);
 
-        JLabel lblNewLabel_2 = new JLabel("Điểm GK");
-        lblNewLabel_2.setBounds(74, 130, 56, 16);
-        frame.getContentPane().add(lblNewLabel_2);
+        JLabel immediateGradeLabel = new JLabel("Điểm GK");
+        immediateGradeLabel.setBounds(74, 130, 56, 16);
+        frame.getContentPane().add(immediateGradeLabel);
 
-        JLabel lblNewLabel_3 = new JLabel("Điểm CK");
-        lblNewLabel_3.setBounds(74, 176, 56, 16);
-        frame.getContentPane().add(lblNewLabel_3);
+        JLabel finalGradeLabel = new JLabel("Điểm CK");
+        finalGradeLabel.setBounds(74, 176, 56, 16);
+        frame.getContentPane().add(finalGradeLabel);
 
-        JLabel lblNewLabel_4 = new JLabel("Điểm khác");
-        lblNewLabel_4.setBounds(74, 230, 86, 16);
-        frame.getContentPane().add(lblNewLabel_4);
+        JLabel otherGradeLabel = new JLabel("Điểm khác");
+        otherGradeLabel.setBounds(74, 230, 86, 16);
+        frame.getContentPane().add(otherGradeLabel);
 
-        JLabel lblNewLabel_5 = new JLabel("Điểm tổng");
-        lblNewLabel_5.setBounds(74, 278, 116, 16);
-        frame.getContentPane().add(lblNewLabel_5);
+        JLabel resultGradeLabel = new JLabel("Điểm tổng");
+        resultGradeLabel.setBounds(74, 278, 116, 16);
+        frame.getContentPane().add(resultGradeLabel);
 
-        JButton btnNewButton = new JButton("Xác nhận");
-        btnNewButton.setBounds(154, 321, 97, 25);
-        btnNewButton.addActionListener(new ActionListener() {
+        JButton confirmButton = new JButton("Xác nhận");
+        confirmButton.setBounds(154, 321, 97, 25);
+        confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 suaDiem();
@@ -116,46 +115,46 @@ public class SuaDiem extends Thread {
                 frame.dispose();
             }
         });
-        frame.getContentPane().add(btnNewButton);
+        frame.getContentPane().add(confirmButton);
 
-        textField_2 = new JTextField();
-        textField_2.setBounds(237, 127, 116, 22);
-        frame.getContentPane().add(textField_2);
-        textField_2.setColumns(10);
+        immediateGradeText = new JTextField();
+        immediateGradeText.setBounds(237, 127, 116, 22);
+        frame.getContentPane().add(immediateGradeText);
+        immediateGradeText.setColumns(10);
 
-        textField_3 = new JTextField();
-        textField_3.setBounds(237, 173, 116, 22);
-        frame.getContentPane().add(textField_3);
-        textField_3.setColumns(10);
+        finalGradeText = new JTextField();
+        finalGradeText.setBounds(237, 173, 116, 22);
+        frame.getContentPane().add(finalGradeText);
+        finalGradeText.setColumns(10);
 
-        textField_4 = new JTextField();
-        textField_4.setBounds(237, 227, 116, 22);
-        frame.getContentPane().add(textField_4);
-        textField_4.setColumns(10);
+        otherGradeText = new JTextField();
+        otherGradeText.setBounds(237, 227, 116, 22);
+        frame.getContentPane().add(otherGradeText);
+        otherGradeText.setColumns(10);
 
-        textField_5 = new JTextField();
-        textField_5.setBounds(237, 275, 116, 22);
-        frame.getContentPane().add(textField_5);
-        textField_5.setColumns(10);
+        resultGradeText = new JTextField();
+        resultGradeText.setBounds(237, 275, 116, 22);
+        frame.getContentPane().add(resultGradeText);
+        resultGradeText.setColumns(10);
 
-        textField.setText(diem.getId().getMssv());
-        textField.setEditable(false);
-        textField_1.setText(diem.getId().getMalopMonhoc());
-        textField_1.setEditable(false);
-        textField_2.setText(diem.getDiemGk().toString());
-        textField_3.setText(diem.getDiemCk().toString());
-        textField_4.setText(diem.getDiemkhac().toString());
-        textField_5.setText(diem.getDiemtong().toString());
+        studentIDText.setText(diem.getId().getMssv());
+        studentIDText.setEditable(false);
+        classIDText.setText(diem.getId().getMalopMonhoc());
+        classIDText.setEditable(false);
+        immediateGradeText.setText(diem.getDiemGk().toString());
+        finalGradeText.setText(diem.getDiemCk().toString());
+        otherGradeText.setText(diem.getDiemkhac().toString());
+        resultGradeText.setText(diem.getDiemtong().toString());
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     public void suaDiem() {
-        diem.setDiemGk(BigDecimal.valueOf(Double.parseDouble(textField_2.getText())));
-        diem.setDiemCk(BigDecimal.valueOf(Double.parseDouble(textField_3.getText())));
-        diem.setDiemkhac(BigDecimal.valueOf(Double.parseDouble(textField_4.getText())));
-        diem.setDiemtong(BigDecimal.valueOf(Double.parseDouble(textField_5.getText())));
+        diem.setDiemGk(BigDecimal.valueOf(Double.parseDouble(immediateGradeText.getText())));
+        diem.setDiemCk(BigDecimal.valueOf(Double.parseDouble(finalGradeText.getText())));
+        diem.setDiemkhac(BigDecimal.valueOf(Double.parseDouble(otherGradeText.getText())));
+        diem.setDiemtong(BigDecimal.valueOf(Double.parseDouble(resultGradeText.getText())));
 
         suaDiem(diem);
     }
